@@ -1,3 +1,9 @@
+# AEGIS
+
+Before working on AEGIS, read [AGENTS.md](./AGENTS.md) and [PROJECT.md](./PROJECT.md). They contain the required product context, security constraints, and current roadmap.
+
+---
+
 # vinext-starter
 
 A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
