@@ -12,6 +12,6 @@ For every change, preserve these non-negotiables:
 - Data DNA decides what may be revealed and in what form.
 - The product may display observable tool activity and AEGIS policy decisions, never hidden model chain-of-thought.
 - Sensitive data should be masked, tokenized, or aggregated at retrieval time; do not copy an entire database merely for protection.
-- The published AEGIS URL is a viewer-facing app, not a replacement for source control. Do not assume another laptop has the editable source until a private source-control remote has been configured.
+- The published AEGIS URL is a viewer-facing app, not a replacement for source control. The editable source is synchronized through the private GitHub repository: `https://github.com/nehitha-ss/aegis-agent-security`.
 
 After a meaningful product change, update the `Current build state` and `Next build slice` portions of `PROJECT.md`.

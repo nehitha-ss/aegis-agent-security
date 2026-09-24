@@ -132,6 +132,7 @@ The current activity feed, risk changes, containment action, and Data DNA select
 - Security Twin visual preview in the Control Room.
 - Interactive **Data DNA Registry**. Selecting an asset updates its owner, purpose, classification, fields, handling rule, permission, and dependencies.
 - Private published preview: `https://aegis-agent-security.nehitha320.chatgpt.site`
+- Private source repository: `https://github.com/nehitha-ss/aegis-agent-security`
 
 ### Not implemented yet — do not represent these as live
 
@@ -206,13 +207,24 @@ Run Codex and Claude Code separately inside controlled local/container runners. 
 
 ## How to continue on another laptop
 
-1. First create a private source-control remote for this folder. This has **not** been set up yet.
-2. On the other laptop, download that same private repository and open the project folder.
-3. Start Codex in that folder.
+The source repository is private and ready: `https://github.com/nehitha-ss/aegis-agent-security`
+
+1. On the other laptop, sign in to the same GitHub account.
+2. Download the private repository and open the `aegis-agent-security` folder in Codex.
+3. Run `npm install`, then `npm run dev` when you want a local preview.
 4. Tell Codex: **“Read `AGENTS.md` and `PROJECT.md`, then continue the next build slice without changing the stated product goal.”**
 5. Ask it to make one completed slice at a time and update `PROJECT.md` after each meaningful change.
 
-The published AEGIS link is for viewing the app; source control is what keeps editable code synchronized between laptops. Do not edit both laptops at once—finish, save, and synchronize on one before switching to the other.
+### Sync routine
+
+- Before starting work: download the newest changes from GitHub.
+- After a completed slice: save the work with a clear message and upload it to GitHub.
+- On the other laptop: download the newest changes before editing.
+- Do not edit both laptops at once—finish, save, and synchronize on one before switching to the other.
+
+### Publishing rule
+
+GitHub stores the source code, but it does **not** automatically update the private AEGIS preview. Keep `.openai/hosting.json` unchanged. When a real product slice is ready, use the existing Sites publishing workflow from Codex while signed into the same owner account; do not create a second AEGIS Site.
 
 ## Local checks
 
