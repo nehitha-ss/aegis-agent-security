@@ -8,8 +8,10 @@ For every change, preserve these non-negotiables:
 
 - AEGIS sits between an AI agent and company systems.
 - Agents must not receive direct production credentials or unrestricted database access.
+- Model instructions and static permissions are not the security boundary. AEGIS must independently verify every tool request before it reaches a protected system.
 - Data DNA decides what may be revealed and in what form.
 - The product may display observable tool activity and AEGIS policy decisions, never hidden model chain-of-thought.
 - Sensitive data should be masked, tokenized, or aggregated at retrieval time; do not copy an entire database merely for protection.
+- The published AEGIS URL is a viewer-facing app, not a replacement for source control. Do not assume another laptop has the editable source until a private source-control remote has been configured.
 
 After a meaningful product change, update the `Current build state` and `Next build slice` portions of `PROJECT.md`.
