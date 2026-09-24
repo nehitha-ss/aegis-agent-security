@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   ArrowUpRight,
@@ -18,6 +18,7 @@ import {
   LayoutDashboard,
   LockKeyhole,
   MoreHorizontal,
+  Moon,
   Network,
   Play,
   Radar,
@@ -25,6 +26,7 @@ import {
   ShieldCheck,
   Sparkles,
   SquareTerminal,
+  Sun,
   Workflow,
   X,
   Zap,
@@ -78,8 +80,19 @@ export default function Home() {
   const [decision, setDecision] = useState<Decision>("Ready");
   const [isChecking, setIsChecking] = useState(false);
   const [privacyBudget, setPrivacyBudget] = useState(28);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const risk = decision === "Blocked" ? 91 : decision === "Contained" ? 100 : 36;
   const eventLabel = useMemo(() => decision === "Blocked" ? "Production mutation blocked" : decision === "Contained" ? "Agent session contained" : "Awaiting an agent request", [decision]);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("aegis-theme");
+    if (savedTheme === "light" || savedTheme === "dark") setTheme(savedTheme);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("aegis-theme", theme);
+  }, [theme]);
 
   function runSecurityCheck() {
     setIsChecking(true);
@@ -111,7 +124,7 @@ export default function Home() {
       <SidebarInset className="min-h-svh bg-[#0b111b] text-slate-100">
         <header className="flex h-16 items-center justify-between border-b border-white/8 bg-[#0b111b]/95 px-4 backdrop-blur md:px-7">
           <div className="flex items-center gap-3"><SidebarTrigger className="text-slate-400 hover:bg-white/5 hover:text-white" /><div className="hidden h-4 w-px bg-white/10 sm:block" /><div className="flex items-center gap-1.5 text-[11px] text-slate-500"><span>Northstar Logistics</span><ChevronRight className="size-3" /><span className="text-slate-300">{activeNav}</span></div></div>
-          <div className="flex items-center gap-2"><div className="hidden items-center gap-2 rounded-md border border-white/8 bg-white/[0.025] px-2.5 py-1.5 text-xs text-slate-400 sm:flex"><Command className="size-3.5" /><span>All systems monitored</span></div><button aria-label="Notifications" className="grid size-8 place-items-center rounded-md text-slate-400 transition hover:bg-white/5 hover:text-white"><Bell className="size-4" /></button></div>
+          <div className="flex items-center gap-2"><div className="hidden items-center gap-2 rounded-md border border-white/8 bg-white/[0.025] px-2.5 py-1.5 text-xs text-slate-400 sm:flex"><Command className="size-3.5" /><span>All systems monitored</span></div><button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`} className="inline-flex h-8 items-center gap-1.5 rounded-md border border-white/8 bg-white/[0.025] px-2 text-[11px] font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"><span className="grid size-4 place-items-center">{theme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}</span><span className="hidden sm:inline">{theme === "dark" ? "Light" : "Dark"}</span></button><button aria-label="Notifications" className="grid size-8 place-items-center rounded-md text-slate-400 transition hover:bg-white/5 hover:text-white"><Bell className="size-4" /></button></div>
         </header>
 
         <main className="mx-auto max-w-[1600px] px-4 py-6 md:px-7 md:py-8">
