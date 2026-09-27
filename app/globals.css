@@ -126,7 +126,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 :root[data-theme="light"] .text-sky-200 { color: #176d9d !important; }
 :root[data-theme="light"] .text-amber-100,
 :root[data-theme="light"] .text-amber-200 { color: #9a5b0a !important; }
+:root[data-theme="light"] .text-rose-100,
 :root[data-theme="light"] .text-rose-200 { color: #bd3346 !important; }
+:root[data-theme="light"] .text-violet-100,
+:root[data-theme="light"] .text-violet-200 { color: #69449b !important; }
 :root[data-theme="light"] .hover\:text-white:hover { color: #162033 !important; }
 :root[data-theme="light"] .hover\:bg-white\/5:hover { background-color: rgba(21, 35, 54, 0.055) !important; }
 :root[data-theme="light"] .data-\[active\=true\]\:bg-\[\#13261f\][data-active="true"] { background-color: #e1f3eb !important; }
