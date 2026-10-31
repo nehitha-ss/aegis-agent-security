@@ -1,8 +1,10 @@
 import { isGatewayActor, isGatewayScenario, runGatewayScenario } from "@/lib/aegis-runtime";
+import { getSession } from "@/lib/google-auth";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  if (!getSession(request)) return Response.json({ error: "Sign in with Google before requesting protected data." }, { status: 401 });
   const body: unknown = await request.json().catch(() => undefined);
   const scenario = body && typeof body === "object" && "scenario" in body
     ? (body as { scenario?: unknown }).scenario

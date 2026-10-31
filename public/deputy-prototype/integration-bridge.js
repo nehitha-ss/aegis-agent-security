@@ -61,6 +61,15 @@
         <div class="aegis-flow-result" aria-live="polite"><p class="aegis-flow-label">POLICY OUTCOME</p><strong>Ready for evaluation</strong><p>Choose a test to calculate the policy decision.</p><div class="aegis-live-event"><i></i> Live policy event stream</div></div>
       </div>`;
     workspace.prepend(panel);
+    fetch("/api/auth/session", { credentials: "same-origin" }).then((response) => response.ok ? response.json() : null).then((data) => {
+      const operator = panel.querySelector(".aegis-operator-strip > div");
+      if (!operator) return;
+      if (!data?.user) {
+        operator.innerHTML = '<span class="aegis-operator-avatar" aria-hidden="true">↗</span><strong>Secure workspace</strong><small><a href="/api/auth/google">Sign in with Google to verify your operator identity</a></small>';
+        return;
+      }
+      operator.innerHTML = `<span class="aegis-operator-avatar" aria-hidden="true">${data.user.name.slice(0, 2).toUpperCase()}</span><strong>${data.user.name}</strong><small>${data.user.email} · verified Google identity</small>`;
+    }).catch(() => {});
 
     const presets = {
       unsafe: { callerService: "Expense Intake API", deputyService: "Finance Orchestrator", sensitiveResource: "Payroll Ledger", callerCanInvokeDeputy: true, deputyUsesOwnIdentity: true, callerContextPropagated: false, resourceAuthorizesDeputyOnly: true, deputyHasSensitiveScope: true },

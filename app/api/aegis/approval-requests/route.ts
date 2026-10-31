@@ -1,4 +1,5 @@
 import { expectedBrowserOrigin } from "@/lib/server-origin";
+import { getSession } from "@/lib/google-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,7 @@ export const dynamic = "force-dynamic";
  */
 export async function POST(request: Request) {
   try {
+    if (!getSession(request)) return Response.json({ error: "Sign in with Google before requesting approval." }, { status: 401 });
     if (request.headers.get("origin") && request.headers.get("origin") !== expectedBrowserOrigin(request)) {
       return Response.json({ error: "Invalid origin" }, { status: 403 });
     }

@@ -461,6 +461,7 @@ main button[class*="rounded"], main [role="button"] { letter-spacing:.005em; }
 .aegis-operator-avatar { grid-row:span 2; display:grid; place-items:center; width:1.6rem; height:1.6rem; border-radius:50%; color:#17613b; background:#dff5e7; font:800 .58rem/1 var(--font-mono,monospace); }
 .aegis-operator-strip strong { color:var(--rebuild-ink); font-size:.7rem; }
 .aegis-operator-strip small { color:var(--rebuild-muted); font-size:.62rem; }
+.aegis-operator-strip small a { color:#17613b; font-weight:800; text-decoration:none; }
 .aegis-operator-strip ul { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.32rem; margin:0; padding:0; list-style:none; }
 .aegis-operator-strip li { border:1px solid #d6e6db; border-radius:99px; padding:.2rem .4rem; color:#587263; background:#fff; font-size:.58rem; font-weight:750; }
 .aegis-command-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.65rem; padding:.8rem 1rem; border-bottom:1px solid var(--rebuild-line); background:#f5faf7; }
@@ -515,6 +516,7 @@ main button[class*="rounded"], main [role="button"] { letter-spacing:.005em; }
 :root[data-theme="dark"] .aegis-operator-strip { border-color:#294b6b; background:#0b1729; }
 :root[data-theme="dark"] .aegis-operator-strip strong { color:#eff6ff; }
 :root[data-theme="dark"] .aegis-operator-strip small,:root[data-theme="dark"] .aegis-tool-row button { color:#b6c6d8; }
+:root[data-theme="dark"] .aegis-operator-strip small a { color:#a5e7ff; }
 :root[data-theme="dark"] .aegis-operator-strip li { border-color:#345676; color:#b6c6d8; background:#10263f; }
 :root[data-theme="dark"] .aegis-command-grid { border-color:#294b6b; background:#0b1729; }
 :root[data-theme="dark"] .aegis-command-grid article { border-color:#294b6b; background:#10263f; }
