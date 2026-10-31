@@ -118,6 +118,11 @@ Never use real personal or company data in the demo.
 
 ## Current build state
 
+The Render public deployment now treats `NEXT_PUBLIC_NORTHSTAR_URL` and
+`AEGIS_INTEGRATION_URL` as optional integration hints. When they are unset, the
+build safely uses the AEGIS Render service origin so a login/configuration
+deploy cannot fail solely because optional self-referential URLs are absent.
+
 ### Deputy-prototype visual system (2026-10-31)
 
 The public nine-stage confused-deputy prototype now uses a dedicated
