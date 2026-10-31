@@ -1,72 +1,57 @@
-/* AEGIS professional visual refinement: preserves the existing prototype layout and behaviour. */
+/* AEGIS visual direction: calm API-security lab in a forest-green palette. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
 :root {
-  --aegis-panel: #0e1724;
-  --aegis-panel-soft: #121e2d;
-  --aegis-line: rgba(170, 197, 220, .14);
-  --aegis-mint: #67e8c1;
+  --aegis-ink: #0c4329;
+  --aegis-forest: #087a42;
+  --aegis-leaf: #22bb70;
+  --aegis-paper: #f7fbf6;
+  --aegis-mist: #edf7ef;
+  --aegis-line: #cce4d3;
 }
 
 body {
-  background:
-    radial-gradient(circle at 78% -12%, rgba(37, 155, 132, .12), transparent 34rem),
-    radial-gradient(circle at 10% 0%, rgba(56, 139, 190, .10), transparent 30rem),
-    #09111b;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif !important;
+  color: var(--aegis-ink) !important;
+  background: radial-gradient(circle at 94% 2%, rgba(73, 202, 130, .13), transparent 22rem), linear-gradient(180deg, #fbfefa 0%, var(--aegis-paper) 68%, #edf7f0 100%) !important;
 }
 
 [data-slot="sidebar-container"] {
-  background: rgba(8, 17, 28, .94) !important;
+  background: rgba(252, 255, 252, .94) !important;
   border-color: var(--aegis-line) !important;
   backdrop-filter: blur(18px);
 }
 
-[data-slot="sidebar"] {
-  background: transparent !important;
-}
+[data-slot="sidebar"] { background: transparent !important; }
 
 header {
   border-color: var(--aegis-line) !important;
-  background: rgba(10, 19, 30, .82) !important;
+  background: rgba(251, 254, 251, .82) !important;
   backdrop-filter: blur(18px);
 }
 
-main > section,
-.rounded-xl.border,
-.rounded-lg.border {
-  border-color: var(--aegis-line);
+main > section, .rounded-xl.border, .rounded-lg.border { border-color: var(--aegis-line) !important; }
+.rounded-xl.border { box-shadow: 0 14px 36px rgba(14, 75, 41, .07) !important; }
+
+h1, h2, h3, [data-slot="card-title"] {
+  color: var(--aegis-ink) !important;
+  font-weight: 800 !important;
+  letter-spacing: -.035em;
 }
 
-.rounded-xl.border {
-  box-shadow: 0 18px 46px rgba(0, 0, 0, .16);
-}
-
-button,
-a {
-  transition: transform .16s ease, border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
-}
-
-button:hover,
-a:hover {
-  transform: translateY(-1px);
-}
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--aegis-mint) !important;
-  outline-offset: 3px;
-}
+button, a { transition: transform .16s ease, border-color .16s ease, background-color .16s ease, box-shadow .16s ease; }
+button:hover, a:hover { transform: translateY(-1px); }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--aegis-leaf) !important; outline-offset: 3px; }
 
 input {
-  border-color: rgba(170, 197, 220, .18) !important;
-  background: rgba(6, 16, 27, .46) !important;
+  border-color: var(--aegis-line) !important;
+  background: #fcfffc !important;
+  color: var(--aegis-ink) !important;
 }
-
-input:focus {
-  border-color: rgba(103, 232, 193, .72) !important;
-  box-shadow: 0 0 0 3px rgba(103, 232, 193, .12);
-}
+input:focus { border-color: var(--aegis-leaf) !important; box-shadow: 0 0 0 3px rgba(34, 187, 112, .14) !important; }
+button[class*="bg-emerald"], button[class*="bg-green"] { box-shadow: 0 8px 18px rgba(8, 122, 66, .14); }
 
 @media (max-width: 700px) {
-  body { background: #09111b; }
-  .rounded-xl.border { box-shadow: none; }
+  body { background: var(--aegis-paper) !important; }
+  .rounded-xl.border { box-shadow: none !important; }
 }
