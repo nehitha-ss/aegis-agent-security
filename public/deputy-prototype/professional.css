@@ -91,6 +91,59 @@
   background: linear-gradient(180deg, #0c281a 0%, #07170f 100%) !important;
   color: #dff6e6 !important;
 }
+:root:not([data-theme="dark"]) [data-slot="sidebar-inner"] {
+  background: transparent !important;
+}
+
+/* Workspace rebuild: give every detector stage a dedicated control-room
+   canvas, rather than merely recolouring the recovered page. */
+:root:not([data-theme="dark"]) main main {
+  position: relative;
+  max-width: none !important;
+  padding: 1.75rem 2rem 3rem !important;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(73, 206, 133, .16), transparent 20rem),
+    linear-gradient(180deg, #f7fcf8 0%, #eef7f0 100%) !important;
+}
+:root:not([data-theme="dark"]) main main::before {
+  content: "AEGIS  /  DEPUTY ANALYSIS WORKSPACE";
+  display: block;
+  margin: 0 auto 1.25rem;
+  max-width: 1440px;
+  padding: 1rem 1.25rem;
+  border: 1px solid #bfe2ca;
+  border-radius: 1rem;
+  color: #17653c;
+  background: linear-gradient(110deg, #effbf3, #fbfffc);
+  box-shadow: 0 12px 30px rgba(18, 86, 47, .07);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+:root:not([data-theme="dark"]) main main > section {
+  max-width: 1440px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+:root:not([data-theme="dark"]) main main > section:first-of-type {
+  position: relative;
+  padding: 1.5rem;
+  border: 1px solid #c4e5cf;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f2fbf4 100%);
+  box-shadow: 0 18px 44px rgba(16, 79, 42, .09);
+}
+:root:not([data-theme="dark"]) main main > section:first-of-type h1 {
+  font-size: clamp(2rem, 3vw, 3.1rem) !important;
+  line-height: 1.04 !important;
+}
+:root:not([data-theme="dark"]) main main > section:first-of-type > div:first-child {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dceee1;
+}
+:root:not([data-theme="dark"]) main main > section:not(:first-of-type) {
+  margin-top: 1.25rem !important;
+}
 :root:not([data-theme="dark"]) [data-slot="sidebar-container"] [data-sidebar="group-label"],
 :root:not([data-theme="dark"]) [data-slot="sidebar-container"] .text-slate-500,
 :root:not([data-theme="dark"]) [data-slot="sidebar-container"] .text-slate-600 { color: #91ad9d !important; }
@@ -143,12 +196,106 @@
 /* Restore every stage panel while the static HTML cache refreshes. */
 div[data-slot="sidebar-wrapper"] main main > section:nth-of-type(n+3) { display: block !important; }
 
-/* Light theme keeps the navigation rail deliberately dark. */
-:root:not([data-theme="dark"]) [data-slot="sidebar-inner"] { background: transparent !important; }
+/* Chain Guard parity pass (2026-10-31).
+   These are measured from the live reference UI rather than guessed values.
+   This layer deliberately touches presentation only; the recovered app's markup,
+   routes, event handlers and graph data remain intact. */
+:root {
+  --cg-day-canvas: #f4f8f5;
+  --cg-day-panel: #ffffff;
+  --cg-day-ink: #173326;
+  --cg-day-muted: #587061;
+  --cg-day-line: #d7e7db;
+  --cg-day-active: #e9f5ed;
+  --cg-day-active-ink: #17613b;
+  --cg-night-canvas: #09111f;
+  --cg-night-sidebar: #0a172a;
+  --cg-night-workspace: #0b1424;
+  --cg-night-panel: #0c2038;
+  --cg-night-line: #284968;
+  --cg-night-ink: #eff6ff;
+  --cg-night-muted: #a9bbd0;
+  --cg-cyan: #7dd3fc;
+  --cg-purple: #c4b5fd;
+}
 
-/* Rebuilt workspace canvas */
-:root:not([data-theme="dark"]) main main{position:relative;max-width:none!important;padding:1.75rem 2rem 3rem!important;background:radial-gradient(circle at 92% 8%,rgba(73,206,133,.16),transparent 20rem),linear-gradient(180deg,#f7fcf8 0%,#eef7f0 100%)!important}
-:root:not([data-theme="dark"]) main main::before{content:"AEGIS  /  DEPUTY ANALYSIS WORKSPACE";display:block;margin:0 auto 1.25rem;max-width:1440px;padding:1rem 1.25rem;border:1px solid #bfe2ca;border-radius:1rem;color:#17653c;background:linear-gradient(110deg,#effbf3,#fbfffc);box-shadow:0 12px 30px rgba(18,86,47,.07);font-size:.68rem;font-weight:800;letter-spacing:.14em}
-:root:not([data-theme="dark"]) main main>section{max-width:1440px;margin-left:auto!important;margin-right:auto!important}
-:root:not([data-theme="dark"]) main main>section:first-of-type{position:relative;padding:1.5rem;border:1px solid #c4e5cf;border-radius:1rem;background:linear-gradient(135deg,#fff 0%,#f2fbf4 100%);box-shadow:0 18px 44px rgba(16,79,42,.09)}
-:root:not([data-theme="dark"]) main main>section:first-of-type h1{font-size:clamp(2rem,3vw,3.1rem)!important;line-height:1.04!important}
+/* The reference's light workspace is intentionally airy. Its sidebar is a
+   white navigation surface—not an extra dark rail—while dark mode remains a
+   navy control room. */
+:root:not([data-theme="dark"]) body {
+  background: var(--cg-day-canvas) !important;
+  color: var(--cg-day-ink) !important;
+}
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] {
+  background: var(--cg-day-panel) !important;
+  border-color: var(--cg-day-line) !important;
+  color: var(--cg-day-ink) !important;
+  box-shadow: none !important;
+}
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [data-sidebar="menu-button"] {
+  color: var(--cg-day-muted) !important;
+  border-radius: 9px !important;
+}
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [data-sidebar="menu-button"][data-active="true"] {
+  background: var(--cg-day-active) !important;
+  color: var(--cg-day-active-ink) !important;
+  box-shadow: none !important;
+}
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [data-sidebar="group-label"],
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] .text-slate-500,
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] .text-slate-600 { color: #789080 !important; }
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] .text-white { color: var(--cg-day-ink) !important; }
+
+:root:not([data-theme="dark"]) header {
+  background: rgba(244, 248, 245, .94) !important;
+  border-color: var(--cg-day-line) !important;
+}
+:root:not([data-theme="dark"]) main main {
+  background: var(--cg-day-canvas) !important;
+}
+:root:not([data-theme="dark"]) main main::before {
+  color: #466853;
+  background: var(--cg-day-panel);
+  border-color: #cfe4d4;
+  box-shadow: none;
+}
+:root:not([data-theme="dark"]) main main > section:first-of-type,
+:root:not([data-theme="dark"]) .rounded-xl.border,
+:root:not([data-theme="dark"]) .rounded-lg.border {
+  background: var(--cg-day-panel) !important;
+  border-color: var(--cg-day-line) !important;
+  box-shadow: none !important;
+}
+:root:not([data-theme="dark"]) h1,
+:root:not([data-theme="dark"]) h2,
+:root:not([data-theme="dark"]) h3,
+:root:not([data-theme="dark"]) [data-slot="card-title"] { color: var(--cg-day-ink) !important; }
+:root:not([data-theme="dark"]) [class*="text-slate-400"],
+:root:not([data-theme="dark"]) [class*="text-slate-500"],
+:root:not([data-theme="dark"]) [class*="text-slate-600"] { color: var(--cg-day-muted) !important; }
+
+/* Measured Chain Guard dark-mode surfaces. The utility overrides make all nine
+   AEGIS stages, including the trust graph, read as one coherent control room. */
+:root[data-theme="dark"] body { background: var(--cg-night-canvas) !important; color: var(--cg-night-ink) !important; }
+:root[data-theme="dark"] [data-slot="sidebar-container"] {
+  background: var(--cg-night-sidebar) !important;
+  border-color: #243b5a !important;
+  color: var(--cg-night-ink) !important;
+}
+:root[data-theme="dark"] header { background: rgba(10, 23, 42, .94) !important; border-color: #243b5a !important; }
+:root[data-theme="dark"] main main { background: var(--cg-night-workspace) !important; }
+:root[data-theme="dark"] [class*="bg-[#0e1622]"],
+:root[data-theme="dark"] [class*="bg-[#09101a]"] { background-color: var(--cg-night-panel) !important; }
+:root[data-theme="dark"] [class*="border-white/8"],
+:root[data-theme="dark"] [class*="border-white/6"],
+:root[data-theme="dark"] [class*="border-white/10"] { border-color: var(--cg-night-line) !important; }
+:root[data-theme="dark"] [class*="text-slate-500"],
+:root[data-theme="dark"] [class*="text-slate-600"] { color: var(--cg-night-muted) !important; }
+:root[data-theme="dark"] [aria-pressed="true"] { border-color: rgba(125, 211, 252, .55) !important; background: rgba(125, 211, 252, .10) !important; }
+:root[data-theme="dark"] button:focus-visible,
+:root[data-theme="dark"] a:focus-visible,
+:root[data-theme="dark"] input:focus-visible { outline: 2px solid var(--cg-cyan) !important; outline-offset: 3px; }
+
+/* The recovered sidebar carries a dark utility class, so restate its measured
+   surface after the generic utility conversion above. */
+:root[data-theme="dark"] [data-slot="sidebar-container"] { background: var(--cg-night-sidebar) !important; }
