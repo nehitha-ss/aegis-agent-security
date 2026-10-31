@@ -1,6 +1,13 @@
 # Public deployment: nehitha-ss account only
 
-Status: prepared locally, not published. No public URL has been created.
+Status: deployed and verified on Render Free as nehitha-ss on 2026-10-31.
+
+- AEGIS: https://aegis-northstar-console.onrender.com/
+- Integrations: https://aegis-northstar-console.onrender.com/integrations
+- Northstar direct demo: https://northstar-finance-demo.onrender.com/demo/open
+- Authenticated ingestion: https://aegis-northstar-ingestion.onrender.com
+
+All three services show Free. No paid disks were created. Deployment source: 78994c618eecae68d4f6a6f243e2b64225a5d774. GitHub Actions run 41194473530 passed both production builds, type/lint checks and all 20 tests. Actual public allowed and denied statement requests were verified; the allowed request correlation 1a90d35d-8dc4-4a22-a07a-b887fc499e16 appeared with three authenticated events and risk 5. Unsafe helper mode stays disabled publicly; vulnerable paths were tested in the isolated test environment. Private hosting values are stored only in Render and ignored local configuration.
 The original Vercel prototype and the existing Sites project are unchanged.
 
 ## Proposed deployment
@@ -75,11 +82,7 @@ unattended watcher that publishes all filesystem changes.
 
 ## Limits
 
-Local validation: the Node/Next target compiled and passed its TypeScript step,
-but Windows denied a filesystem write during final static prerendering (EPERM).
-It has not passed a full public production build yet. The Linux CI production
-build must pass before publishing; do not treat successful compilation alone as
-a deployment. The local Vinext target remains the existing working preview.
+The hosted Linux CI production build passed. The earlier local Windows prerender EPERM does not affect the verified Linux deployment.
 
 The public frontend currently embeds the recovered prototype build; its original
 editable Vercel source/backend are not available. Source-level maintenance of
