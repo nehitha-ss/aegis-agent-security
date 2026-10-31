@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AEGIS — Agent security control",
-  description: "A real-time security control plane for AI agents and connected systems.",
+  title: "AEGIS — Confused Deputy API Detector",
+  description: "Confused-deputy detection with authenticated Northstar Finance integration evidence.",
   other: {
     "codex-preview": "development",
   },
