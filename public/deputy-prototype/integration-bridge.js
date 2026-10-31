@@ -27,55 +27,8 @@
         "PROTOTYPE DEMONSTRATION · These screens use sample data and manual inputs. Authenticated Northstar events appear separately in Integrations.";
       header.after(note);
     }
-    const workspace = document.querySelector("main main");
-    if (workspace && !document.getElementById("aegis-workspace-chrome")) {
-      const chrome = document.createElement("section");
-      chrome.id = "aegis-workspace-chrome";
-      chrome.setAttribute("aria-label", "AEGIS workspace status");
-      chrome.innerHTML = `
-        <div class="aegis-crumb"><span>WORKSPACE</span><i></i><strong>DEPUTY ANALYSIS</strong></div>
-        <div class="aegis-chrome-grid">
-          <div><p class="aegis-eyebrow">CONFUSED-DEPUTY CONTROL ROOM</p><h1 id="aegis-stage-title">Microservices</h1><p id="aegis-stage-description">Map the service path and establish the authorization boundary.</p></div>
-          <div class="aegis-health"><span class="aegis-pulse" aria-hidden="true"></span><div><b>Detector online</b><small>Northstar finance APIs · sample environment</small></div></div>
-        </div>`;
-      workspace.prepend(chrome);
-    }
-    const active = document.querySelector('[data-sidebar="menu-button"][data-active="true"]');
-    const title = document.getElementById("aegis-stage-title");
-    const description = document.getElementById("aegis-stage-description");
-    if (active && title) {
-      const name = active.querySelector("span span")?.textContent?.trim() || active.textContent?.trim() || "Analysis";
-      title.textContent = name;
-      const copy = {
-        "Microservices": "Map the service path and establish the authorization boundary.",
-        "Identity Discovery": "Verify the workload identities and actor context behind each request.",
-        "Security Twin": "Inspect the security twin before a privileged dependency can act.",
-        "Trust Graph": "Trace where caller context ends and implicit deputy trust begins.",
-        "Permission Analysis": "Compare caller authority with the permissions exercised downstream.",
-        "Confused-Deputy Detection": "Evaluate evidence against the delegated-access safety boundary.",
-        "Risk Alert": "Prioritize the exposed path and document its operational impact.",
-        "Recommended Policy Fix": "Generate a least-privilege control that preserves the approved workflow.",
-        "Evidence Ledger": "Review the complete, explainable record for this analysis run."
-      };
-      if (description) description.textContent = copy[name] || "Review the current AEGIS analysis stage.";
-    }
   }
-  // This recovered page hydrates asynchronously. Use a short, bounded startup
-  // retry instead of observing every DOM mutation—an observer can make a busy
-  // dashboard unresponsive while React is updating its evidence panels.
-  let startupAttempts = 0;
-  const installWhenReady = () => {
-    install();
-    startupAttempts += 1;
-    if (!document.getElementById("aegis-workspace-chrome") && startupAttempts < 8) {
-      setTimeout(installWhenReady, 180);
-    }
-  };
-  installWhenReady();
-  window.addEventListener("load", installWhenReady, { once: true });
-  document.addEventListener("click", event => {
-    if (event.target.closest('[data-sidebar="menu-button"]')) requestAnimationFrame(install);
-  });
+  install();
   const stage = new URLSearchParams(location.search).get("stage");
   if (stage && /^\d$/.test(stage) && Number(stage) < 9) {
     const select = () =>
