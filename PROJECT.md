@@ -122,9 +122,8 @@ Never use real personal or company data in the demo.
 
 Public deployment preparation now targets the nehitha-ss account and the existing
 dedicated feature branch only. `render.yaml`, CI checks and a separate Node/Next
-public build support three services with two persistent disks. No new hosted
-resources exist yet: Render connection, correct GitHub write identity, actual
-service origins and hosting-cost approval remain necessary. See PUBLISHING.md.
+public build support three free services with temporary SQLite storage. No new hosted
+resources exist yet. Source upload is in progress as nehitha-ss; actual service origins and deployment verification remain necessary. Free-only hosting is approved, with restart/reset limits. See PUBLISHING.md.
 
 Integrations now follows the Chain Guard screenshot's access flow: shared public
 demo code `stuportal123`, backend-framework selection, and a collapsible read-only
