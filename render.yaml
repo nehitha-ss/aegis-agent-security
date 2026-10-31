@@ -21,17 +21,13 @@ services:
   - type: web
     name: aegis-northstar-ingestion
     runtime: node
-    plan: 0.5c-512mb
+    plan: free
     repo: https://github.com/nehitha-ss/aegis-agent-security
     branch: feature/northstar-fastapi-integration
     autoDeployTrigger: checksPass
     buildCommand: npm run install:ci
     startCommand: node integration/server.mjs
     healthCheckPath: /health
-    disk:
-      name: aegis-evidence
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: NODE_VERSION
         value: 24.21.0
@@ -40,30 +36,28 @@ services:
       - key: AEGIS_INTEGRATION_PORT
         value: '10000'
       - key: AEGIS_INTEGRATION_DB
-        value: /var/data/aegis.sqlite
+        value: .integration-data/aegis.sqlite
       - key: AEGIS_OWNER_KEYS
+        sync: false
+      - key: AEGIS_BOOTSTRAP_APPS
         sync: false
       - key: AEGIS_ORIGIN
         sync: false
   - type: web
     name: northstar-finance-demo
     runtime: python
-    plan: 0.5c-512mb
+    plan: free
     repo: https://github.com/nehitha-ss/aegis-agent-security
     branch: feature/northstar-fastapi-integration
     autoDeployTrigger: checksPass
     buildCommand: pip install -r python/requirements.lock.txt ./python/connector
     startCommand: python -m uvicorn northstar.app:app --app-dir python --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
-    disk:
-      name: fictional-finance
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.14
       - key: NORTHSTAR_DB
-        value: /var/data/northstar.sqlite
+        value: .integration-data/northstar.sqlite
       - key: NORTHSTAR_OWNER_PASSWORD
         generateValue: true
       - key: NORTHSTAR_CUSTOMER_PASSWORD
