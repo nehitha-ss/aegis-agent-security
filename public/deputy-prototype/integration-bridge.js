@@ -87,8 +87,13 @@
       }
     }));
   }
-  install();
-  installEnforcementPath();
+  // The recovered client bundle hydrates after this deferred file. Install
+  // after hydration (with one bounded retry) so React does not replace the
+  // extension surface with its original static tree.
+  const installExtensions = () => { install(); installEnforcementPath(); };
+  if (document.readyState === "complete") installExtensions();
+  else window.addEventListener("load", installExtensions, { once: true });
+  window.setTimeout(installExtensions, 750);
   const stage = new URLSearchParams(location.search).get("stage");
   if (stage && /^\d$/.test(stage) && Number(stage) < 9) {
     const select = () =>
