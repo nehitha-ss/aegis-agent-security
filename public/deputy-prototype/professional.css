@@ -1,4 +1,4 @@
-/* AEGIS visual direction: calm API-security lab in a forest-green palette. */
+/* AEGIS visual direction: calm, enterprise API-security console. */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -8,52 +8,136 @@
   --aegis-paper: #f7fbf6;
   --aegis-mist: #edf7ef;
   --aegis-line: #cce4d3;
+  --aegis-muted: #5d786b;
+  --aegis-shadow: 0 16px 40px rgba(12, 67, 41, .08);
 }
 
-body {
+/* The recovered prototype is built from a static export with dark utility
+   classes.  These light-theme overrides deliberately live in one file so its
+   event handlers, stage routing and graph markup remain untouched. */
+:root:not([data-theme="dark"]) body {
   font-family: 'DM Sans', 'Segoe UI', sans-serif !important;
   color: var(--aegis-ink) !important;
   background: radial-gradient(circle at 94% 2%, rgba(73, 202, 130, .13), transparent 22rem), linear-gradient(180deg, #fbfefa 0%, var(--aegis-paper) 68%, #edf7f0 100%) !important;
 }
 
-[data-slot="sidebar-container"] {
-  background: rgba(252, 255, 252, .94) !important;
-  border-color: var(--aegis-line) !important;
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] {
   backdrop-filter: blur(18px);
+}
+
+/* Keep navigation intentionally dark, like a real security console. */
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] {
+  background: linear-gradient(180deg, #0c281a 0%, #07170f 100%) !important;
+  border-color: rgba(182, 231, 200, .14) !important;
+  color: #dff6e6 !important;
+}
+
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [class*="text-white"],
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [class*="text-slate"],
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [class*="text-emerald"] {
+  color: inherit;
+}
+
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [data-sidebar="menu-button"] {
+  color: #b8cfc0 !important;
+}
+
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [data-sidebar="menu-button"][data-active="true"] {
+  background: rgba(97, 218, 142, .14) !important;
+  color: #eafff1 !important;
+  box-shadow: inset 3px 0 0 #49ce85;
 }
 
 [data-slot="sidebar"] { background: transparent !important; }
 
-header {
+:root:not([data-theme="dark"]) header {
   border-color: var(--aegis-line) !important;
   background: rgba(251, 254, 251, .82) !important;
   backdrop-filter: blur(18px);
 }
 
-main > section, .rounded-xl.border, .rounded-lg.border { border-color: var(--aegis-line) !important; }
-.rounded-xl.border { box-shadow: 0 14px 36px rgba(14, 75, 41, .07) !important; }
+:root:not([data-theme="dark"]) main > section,
+:root:not([data-theme="dark"]) .rounded-xl.border,
+:root:not([data-theme="dark"]) .rounded-lg.border { border-color: var(--aegis-line) !important; }
 
-h1, h2, h3, [data-slot="card-title"] {
+:root:not([data-theme="dark"]) .rounded-xl.border { box-shadow: var(--aegis-shadow) !important; }
+
+/* Surface and type conversion for the static Tailwind palette. */
+:root:not([data-theme="dark"]) [class*="bg-[#0e1622]"],
+:root:not([data-theme="dark"]) [class*="bg-[#09101a]"],
+:root:not([data-theme="dark"]) [class*="bg-white/[0.018]"],
+:root:not([data-theme="dark"]) [class*="bg-white/[0.035]"] {
+  background-color: rgba(255, 255, 255, .94) !important;
+}
+
+:root:not([data-theme="dark"]) [class*="border-white/8"],
+:root:not([data-theme="dark"]) [class*="border-white/6"],
+:root:not([data-theme="dark"]) [class*="border-white/10"] {
+  border-color: #d9e9de !important;
+}
+
+:root:not([data-theme="dark"]) [class*="text-white"],
+:root:not([data-theme="dark"]) [class*="text-slate-200"],
+:root:not([data-theme="dark"]) [class*="text-slate-300"] { color: #143e2a !important; }
+:root:not([data-theme="dark"]) [class*="text-slate-400"],
+:root:not([data-theme="dark"]) [class*="text-slate-500"],
+:root:not([data-theme="dark"]) [class*="text-slate-600"] { color: var(--aegis-muted) !important; }
+
+:root:not([data-theme="dark"]) [class*="shadow-[0_20px_70px"] { box-shadow: var(--aegis-shadow) !important; }
+
+/* This comes after the generic recovered-utility conversion so the navigation
+   rail remains a deliberate dark anchor in light mode. */
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] {
+  background: linear-gradient(180deg, #0c281a 0%, #07170f 100%) !important;
+  color: #dff6e6 !important;
+}
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [data-sidebar="group-label"],
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] .text-slate-500,
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] .text-slate-600 { color: #91ad9d !important; }
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] .text-white { color: #f3fff6 !important; }
+:root:not([data-theme="dark"]) [data-slot="sidebar-container"] [data-sidebar="menu-button"] { color: #b8cfc0 !important; }
+
+:root:not([data-theme="dark"]) main main { max-width: 1560px; }
+:root:not([data-theme="dark"]) main main > section:first-child { padding-top: .5rem; }
+
+:root:not([data-theme="dark"]) h1,
+:root:not([data-theme="dark"]) h2,
+:root:not([data-theme="dark"]) h3,
+:root:not([data-theme="dark"]) [data-slot="card-title"] {
   color: var(--aegis-ink) !important;
   font-weight: 800 !important;
   letter-spacing: -.035em;
 }
 
-button, a { transition: transform .16s ease, border-color .16s ease, background-color .16s ease, box-shadow .16s ease; }
-button:hover, a:hover { transform: translateY(-1px); }
-button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--aegis-leaf) !important; outline-offset: 3px; }
+:root:not([data-theme="dark"]) button,
+:root:not([data-theme="dark"]) a { transition: transform .16s ease, border-color .16s ease, background-color .16s ease, box-shadow .16s ease; }
+:root:not([data-theme="dark"]) button:hover,
+:root:not([data-theme="dark"]) a:hover { transform: translateY(-1px); }
+:root:not([data-theme="dark"]) button:focus-visible,
+:root:not([data-theme="dark"]) a:focus-visible,
+:root:not([data-theme="dark"]) input:focus-visible { outline: 2px solid var(--aegis-leaf) !important; outline-offset: 3px; }
 
-input {
+:root:not([data-theme="dark"]) input {
   border-color: var(--aegis-line) !important;
   background: #fcfffc !important;
   color: var(--aegis-ink) !important;
 }
-input:focus { border-color: var(--aegis-leaf) !important; box-shadow: 0 0 0 3px rgba(34, 187, 112, .14) !important; }
-button[class*="bg-emerald"], button[class*="bg-green"] { box-shadow: 0 8px 18px rgba(8, 122, 66, .14); }
+:root:not([data-theme="dark"]) input:focus { border-color: var(--aegis-leaf) !important; box-shadow: 0 0 0 3px rgba(34, 187, 112, .14) !important; }
+:root:not([data-theme="dark"]) button[class*="bg-emerald"],
+:root:not([data-theme="dark"]) button[class*="bg-green"] { box-shadow: 0 8px 18px rgba(8, 122, 66, .14); }
+
+/* Give evidence/metric cards the quieter, scan-friendly hierarchy of a control room. */
+:root:not([data-theme="dark"]) [class*="rounded-xl"] { border-radius: .9rem !important; }
+:root:not([data-theme="dark"]) [class*="rounded-lg"] { border-radius: .72rem !important; }
+:root:not([data-theme="dark"]) [aria-pressed="true"] { border-color: #79c997 !important; background: #eefaf1 !important; }
+:root:not([data-theme="dark"]) [class*="bg-emerald-300/[0.07]"] { background: #eaf9f0 !important; }
+:root:not([data-theme="dark"]) [class*="bg-amber-200/[0.07]"],
+:root:not([data-theme="dark"]) [class*="bg-amber-200/[0.05]"] { background: #fff8e8 !important; }
+:root:not([data-theme="dark"]) [class*="bg-rose-300/[0.1]"] { background: #fff1f2 !important; }
 
 @media (max-width: 700px) {
-  body { background: var(--aegis-paper) !important; }
-  .rounded-xl.border { box-shadow: none !important; }
+  :root:not([data-theme="dark"]) body { background: var(--aegis-paper) !important; }
+  :root:not([data-theme="dark"]) .rounded-xl.border { box-shadow: none !important; }
 }
 
 /* Restore every stage panel while the static HTML cache refreshes. */
