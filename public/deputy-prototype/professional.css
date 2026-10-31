@@ -142,3 +142,6 @@
 
 /* Restore every stage panel while the static HTML cache refreshes. */
 div[data-slot="sidebar-wrapper"] main main > section:nth-of-type(n+3) { display: block !important; }
+
+/* Light theme keeps the navigation rail deliberately dark. */
+:root:not([data-theme="dark"]) [data-slot="sidebar-inner"] { background: transparent !important; }
