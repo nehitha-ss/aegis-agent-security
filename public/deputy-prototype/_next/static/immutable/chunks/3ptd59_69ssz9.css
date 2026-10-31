@@ -5,7 +5,3 @@ div.mb-3.flex.items-center.gap-2.text-xs.font-medium.text-\[\#a7f4d3\] {
   display: none !important;
 }
 
-/* The inventory stage has been retired from the viewer flow. */
-[data-sidebar="sidebar"] [data-slot="sidebar-menu-item"]:first-child {
-  display: none !important;
-}
