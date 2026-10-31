@@ -135,8 +135,8 @@ the AEGIS sidebar, header, cards, evidence panels, and all recovered stages.
 Only `professional.css` changed; detection logic, trust-graph relationships,
 routes, and controls remain untouched.
 
-The recovered public detector now also has a three-step **AEGIS enforcement
-path** injected through its supported `integration-bridge.js` extension. The
+The recovered public detector now also has a compact three-step **AEGIS
+verification gateway** injected through its supported `integration-bridge.js` extension. The
 operator can submit an unsafe or verified fictional delegation scenario; both
 buttons call the server-side `/api/detector/analyze` rule before presenting the
 allow-or-block result. The panel is deliberately marked as a fictional demo and

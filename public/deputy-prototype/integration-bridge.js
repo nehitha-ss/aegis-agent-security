@@ -35,19 +35,19 @@
 
     const panel = document.createElement("section");
     panel.id = "aegis-enforcement-path";
-    panel.setAttribute("aria-label", "AEGIS three-step enforcement path");
+    panel.setAttribute("aria-label", "AEGIS verification gateway");
     panel.innerHTML = `
       <div class="aegis-flow-header">
-        <div><p class="aegis-flow-kicker">LIVE POLICY CHECKPOINT</p><h2>AEGIS enforcement path</h2><p>AEGIS evaluates the delegation request before the simulated Payroll Ledger boundary.</p></div>
+        <div><p class="aegis-flow-kicker">VERIFICATION GATEWAY</p><h2>AEGIS checks delegated payroll requests</h2><p>One policy checkpoint before the simulated Payroll Ledger boundary.</p></div>
         <span class="aegis-flow-badge">FICTIONAL DEMO</span>
       </div>
       <ol class="aegis-flow-steps" aria-label="Request processing steps">
-        <li class="is-current"><span>01</span><strong>Request enters AEGIS</strong><small>Expense Intake requests payroll validation through Finance.</small></li>
-        <li><span>02</span><strong>AEGIS verifies delegation</strong><small>Identity, caller context, downstream trust, and sensitive scope are checked.</small></li>
-        <li><span>03</span><strong>Payroll access is decided</strong><small>AEGIS allows a verified request or blocks the deputy path before access.</small></li>
+        <li class="is-current"><span>01 · REQUEST</span><strong>Capture caller intent</strong><small>Expense Intake → Finance</small></li>
+        <li><span>02 · VERIFY</span><strong>Check identity and scope</strong><small>Caller context · trust · authority</small></li>
+        <li><span>03 · DECIDE</span><strong>Allow or block payroll</strong><small>Decision returned before access</small></li>
       </ol>
       <div class="aegis-flow-actions">
-        <div><p class="aegis-flow-label">OPERATOR TEST</p><p class="aegis-flow-copy">Send a fictional request through the same server-side detector used by this prototype.</p><div class="aegis-flow-buttons"><button type="button" data-aegis-test="unsafe">Test unsafe request</button><button type="button" data-aegis-test="safe">Test verified request</button></div><p class="aegis-flow-note">Unsafe: Finance substitutes its own payroll identity. Verified: the caller context is retained and deputy-only payroll authority is removed.</p></div>
+        <div><p class="aegis-flow-label">OPERATOR TEST</p><p class="aegis-flow-copy">Run a fictional delegation check through the server-side policy detector.</p><div class="aegis-flow-buttons"><button type="button" data-aegis-test="unsafe">Test unsafe request</button><button type="button" data-aegis-test="safe">Test verified request</button></div><p class="aegis-flow-note">Unsafe substitutes Finance’s payroll identity. Verified preserves caller context and removes deputy-only authority.</p></div>
         <div class="aegis-flow-result" aria-live="polite"><p class="aegis-flow-label">POLICY OUTCOME</p><strong>Ready for evaluation</strong><p>Choose a test to calculate the policy decision.</p></div>
       </div>`;
     workspace.prepend(panel);

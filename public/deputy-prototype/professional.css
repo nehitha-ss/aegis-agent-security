@@ -450,32 +450,32 @@ main button[class*="rounded"], main [role="button"] { letter-spacing:.005em; }
   background: var(--rebuild-surface);
   box-shadow: 0 1px 2px rgba(16,54,35,.03), 0 14px 34px rgba(16,54,35,.05);
 }
-.aegis-flow-header { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; padding:1.25rem 1.35rem; border-bottom:1px solid var(--rebuild-line); }
+.aegis-flow-header { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; padding:.85rem 1rem; border-bottom:1px solid var(--rebuild-line); }
 .aegis-flow-kicker,.aegis-flow-label { margin:0; color:var(--rebuild-green); font-size:.66rem; font-weight:800; letter-spacing:.13em; }
-.aegis-flow-header h2 { margin:.38rem 0 0; color:var(--rebuild-ink); font-size:1.25rem; letter-spacing:-.03em; }
-.aegis-flow-header p:not(.aegis-flow-kicker) { max-width:680px; margin:.4rem 0 0; color:var(--rebuild-muted); font-size:.8rem; line-height:1.5; }
+.aegis-flow-header h2 { margin:.26rem 0 0; color:var(--rebuild-ink); font-size:1.05rem; letter-spacing:-.02em; }
+.aegis-flow-header p:not(.aegis-flow-kicker) { max-width:680px; margin:.25rem 0 0; color:var(--rebuild-muted); font-size:.76rem; line-height:1.4; }
 .aegis-flow-badge { flex:0 0 auto; border:1px solid #b9dcca; border-radius:99px; padding:.38rem .58rem; color:#17613b; background:#f1faf4; font-size:.62rem; font-weight:800; letter-spacing:.08em; }
 .aegis-flow-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; padding:0; list-style:none; background:#f8fbf9; }
-.aegis-flow-steps li { min-height:136px; padding:1.1rem 1.35rem; border-right:1px solid var(--rebuild-line); }
+.aegis-flow-steps li { min-height:94px; padding:.72rem 1rem; border-right:1px solid var(--rebuild-line); }
 .aegis-flow-steps li:last-child { border-right:0; }
 .aegis-flow-steps span { display:block; color:#93a99a; font:800 .68rem/1 var(--font-mono,monospace); letter-spacing:.09em; }
-.aegis-flow-steps strong { display:block; margin-top:.8rem; color:var(--rebuild-ink); font-size:.85rem; }
-.aegis-flow-steps small { display:block; margin-top:.42rem; color:var(--rebuild-muted); font-size:.72rem; line-height:1.45; }
+.aegis-flow-steps strong { display:block; margin-top:.42rem; color:var(--rebuild-ink); font-size:.8rem; }
+.aegis-flow-steps small { display:block; margin-top:.22rem; color:var(--rebuild-muted); font-size:.68rem; line-height:1.35; }
 .aegis-flow-steps .is-current { background:#eef9f1; box-shadow:inset 3px 0 0 #20985a; }
 .aegis-flow-steps .is-current span { color:#17613b; }
 .aegis-flow-steps .is-complete span::after { content:" ✓"; color:#20985a; }
-.aegis-flow-actions { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr); gap:1rem; padding:1.2rem 1.35rem; }
-.aegis-flow-copy { margin:.45rem 0 0; color:var(--rebuild-ink); font-size:.84rem; font-weight:650; }
-.aegis-flow-buttons { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1rem; }
-.aegis-flow-buttons button { border:1px solid #d6e6db; border-radius:9px; padding:.66rem .9rem; color:#17613b; background:#fff; font-size:.75rem; font-weight:800; cursor:pointer; }
+.aegis-flow-actions { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr); gap:.85rem; padding:.85rem 1rem; }
+.aegis-flow-copy { margin:.3rem 0 0; color:var(--rebuild-ink); font-size:.78rem; font-weight:650; }
+.aegis-flow-buttons { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.7rem; }
+.aegis-flow-buttons button { border:1px solid #d6e6db; border-radius:8px; padding:.52rem .72rem; color:#17613b; background:#fff; font-size:.7rem; font-weight:800; cursor:pointer; }
 .aegis-flow-buttons button:first-child { border-color:#e7b9c1; color:#a51f36; background:#fff5f6; }
 .aegis-flow-buttons button:hover:not(:disabled) { box-shadow:0 6px 15px rgba(16,54,35,.08); }
 .aegis-flow-buttons button:disabled { cursor:wait; opacity:.6; }
-.aegis-flow-note { max-width:680px; margin:.8rem 0 0; color:var(--rebuild-muted); font-size:.69rem; line-height:1.45; }
-.aegis-flow-result { min-height:130px; border:1px solid var(--rebuild-line); border-radius:12px; padding:1rem; background:#f8fbf9; }
-.aegis-flow-result strong { display:block; margin-top:.55rem; color:var(--rebuild-ink); font-size:.86rem; }
-.aegis-flow-result p:not(.aegis-flow-label) { margin:.45rem 0 0; color:var(--rebuild-muted); font-size:.72rem; line-height:1.5; }
-.aegis-flow-result small { display:block; margin-top:.7rem; color:#71877a; font:700 .65rem/1.3 var(--font-mono,monospace); }
+.aegis-flow-note { max-width:680px; margin:.55rem 0 0; color:var(--rebuild-muted); font-size:.65rem; line-height:1.35; }
+.aegis-flow-result { min-height:102px; border:1px solid var(--rebuild-line); border-radius:10px; padding:.78rem; background:#f8fbf9; }
+.aegis-flow-result strong { display:block; margin-top:.38rem; color:var(--rebuild-ink); font-size:.8rem; }
+.aegis-flow-result p:not(.aegis-flow-label) { margin:.3rem 0 0; color:var(--rebuild-muted); font-size:.68rem; line-height:1.35; }
+.aegis-flow-result small { display:block; margin-top:.45rem; color:#71877a; font:700 .62rem/1.25 var(--font-mono,monospace); }
 .aegis-flow-result.is-checking { border-color:#b8dbe5; background:#f2fbfd; }
 .aegis-flow-result.is-blocked { border-color:#e8b9c1; background:#fff5f6; }
 .aegis-flow-result.is-blocked strong,.aegis-flow-result.is-error strong { color:#a51f36; }
@@ -484,7 +484,7 @@ main button[class*="rounded"], main [role="button"] { letter-spacing:.005em; }
 .aegis-flow-result.is-error { border-color:#e8b9c1; background:#fff5f6; }
 :root[data-theme="dark"] #aegis-enforcement-path { border-color:#294b6b; background:#0d2038; box-shadow:none; }
 :root[data-theme="dark"] .aegis-flow-header { border-color:#294b6b; }
-:root[data-theme="dark"] .aegis-flow-header h2,.aegis-flow-steps strong,.aegis-flow-copy,.aegis-flow-result strong { color:#eff6ff; }
+:root[data-theme="dark"] .aegis-flow-header h2,:root[data-theme="dark"] .aegis-flow-steps strong,:root[data-theme="dark"] .aegis-flow-copy,:root[data-theme="dark"] .aegis-flow-result strong { color:#eff6ff; }
 :root[data-theme="dark"] .aegis-flow-header p:not(.aegis-flow-kicker),:root[data-theme="dark"] .aegis-flow-steps small,:root[data-theme="dark"] .aegis-flow-note,:root[data-theme="dark"] .aegis-flow-result p:not(.aegis-flow-label) { color:#b6c6d8; }
 :root[data-theme="dark"] .aegis-flow-steps,:root[data-theme="dark"] .aegis-flow-result { background:#0b1729; }
 :root[data-theme="dark"] .aegis-flow-steps li { border-color:#294b6b; }
