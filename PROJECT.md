@@ -118,6 +118,23 @@ Never use real personal or company data in the demo.
 
 ## Current build state
 
+### Deputy-prototype visual system (2026-10-31)
+
+The public nine-stage confused-deputy prototype now uses a dedicated
+`professional.css` layer: a Chain Guard-inspired forest security-console
+presentation with a dark navigation rail, off-white operator workspace,
+consistent evidence cards, accessible focus treatment, and preserved dark-mode
+behaviour. The static export's stage markup and JavaScript navigation remain
+unchanged; the styling layer also retains the guard that prevents later stage
+panels from being hidden by stale cached markup.
+
+The presentation layer has also been reconciled against the live Chain Guard
+reference: its measured light palette (forest workspace, white panels, and
+green navigation states) and navy dark-mode surfaces now apply consistently to
+the AEGIS sidebar, header, cards, evidence panels, and all recovered stages.
+Only `professional.css` changed; detection logic, trust-graph relationships,
+routes, and controls remain untouched.
+
 ### Isolated Northstar integration branch (2026-10-31)
 
 Public deployment preparation now targets the nehitha-ss account and the existing
@@ -241,6 +258,10 @@ The current activity feed receives local gateway and MCP-client events. The loca
 ## Delivery roadmap
 
 ### Next build slice — fictional Supabase connection, durable evidence, and approvals
+
+For the recovered deputy prototype, keep future visual refinements in
+`public/deputy-prototype/professional.css`; do not modify the recovered static
+stage markup or generated interaction bundle for presentation-only work.
 
 For the isolated finance integration, the next slice is owner-reviewed hosting
 on separate URLs, secret/key lifecycle controls, durable report retries and
