@@ -123,6 +123,11 @@ The Render public deployment now treats `NEXT_PUBLIC_NORTHSTAR_URL` and
 build safely uses the AEGIS Render service origin so a login/configuration
 deploy cannot fail solely because optional self-referential URLs are absent.
 
+The public gateway header now has an explicit high-contrast title treatment and
+uses professional secure-sandbox language. Google sign-in is live; the policy
+data remains intentionally synthetic until a company-approved data integration
+exists.
+
 ### Deputy-prototype visual system (2026-10-31)
 
 The public nine-stage confused-deputy prototype now uses a dedicated

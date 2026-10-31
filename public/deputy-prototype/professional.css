@@ -453,7 +453,7 @@ main button[class*="rounded"], main [role="button"] { letter-spacing:.005em; }
 .aegis-flow-header { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; padding:1.15rem 1.2rem; border-bottom:1px solid #1e5b3b; color:#fff; background:linear-gradient(115deg,#103623 0%,#17613b 54%,#197c4a 100%); }
 .aegis-flow-kicker,.aegis-flow-label { margin:0; color:var(--rebuild-green); font-size:.66rem; font-weight:800; letter-spacing:.13em; }
 .aegis-flow-header .aegis-flow-kicker { color:#aeeac5; }
-.aegis-flow-header h2 { margin:.26rem 0 0; color:#fff; font-size:1.25rem; letter-spacing:-.03em; }
+.aegis-flow-header h2 { margin:.26rem 0 0; color:#fff !important; font-size:1.25rem; letter-spacing:-.03em; text-shadow:0 1px 1px rgba(0,0,0,.18); }
 .aegis-flow-header p:not(.aegis-flow-kicker) { max-width:680px; margin:.25rem 0 0; color:#d4e9dc; font-size:.76rem; line-height:1.4; }
 .aegis-flow-badge { flex:0 0 auto; border:1px solid rgba(255,255,255,.28); border-radius:99px; padding:.38rem .58rem; color:#fff; background:rgba(255,255,255,.12); font-size:.62rem; font-weight:800; letter-spacing:.08em; }
 .aegis-operator-strip { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.55rem 1rem; border-bottom:1px solid var(--rebuild-line); background:#fbfdfb; }

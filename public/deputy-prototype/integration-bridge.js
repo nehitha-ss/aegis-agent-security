@@ -24,7 +24,7 @@
       note.style.cssText =
         "padding:8px 28px;font-size:11px;border-bottom:1px solid var(--border);color:var(--muted-foreground);";
       note.textContent =
-        "PROTOTYPE DEMONSTRATION · These screens use sample data and manual inputs. Authenticated Northstar events appear separately in Integrations.";
+        "SECURE SANDBOX · This workspace uses synthetic policy data. Authenticated AEGIS events appear separately in Integrations.";
       header.after(note);
     }
   }
@@ -38,8 +38,8 @@
     panel.setAttribute("aria-label", "AEGIS verification gateway");
     panel.innerHTML = `
       <div class="aegis-flow-header">
-        <div><p class="aegis-flow-kicker">VERIFICATION GATEWAY</p><h2>AEGIS checks delegated payroll requests</h2><p>One policy checkpoint before the simulated Payroll Ledger boundary.</p></div>
-        <span class="aegis-flow-badge">FICTIONAL DEMO</span>
+        <div><p class="aegis-flow-kicker">VERIFICATION GATEWAY</p><h2>AEGIS verifies delegated access before payroll</h2><p>One policy checkpoint before a protected Payroll Ledger boundary.</p></div>
+        <span class="aegis-flow-badge">SECURE SANDBOX</span>
       </div>
       <div class="aegis-operator-strip" aria-label="Demo operator and connected systems">
         <div><span class="aegis-operator-avatar" aria-hidden="true">NA</span><strong>Northstar demo workspace</strong><small>Signed in as Analyst · role-scoped access</small></div>
@@ -57,7 +57,7 @@
         <li><span>03 · DECIDE</span><strong>Allow or block payroll</strong><small>Decision returned before access</small></li>
       </ol>
       <div class="aegis-flow-actions">
-        <div><p class="aegis-flow-label">OPERATOR TEST</p><p class="aegis-flow-copy">Run a fictional delegation check through the server-side policy detector.</p><div class="aegis-flow-buttons"><button type="button" data-aegis-test="unsafe">Test unsafe request</button><button type="button" data-aegis-test="safe">Test verified request</button></div><div class="aegis-tool-row"><button type="button" data-aegis-tool="payroll-summary">Protected payroll summary <em>MASK</em></button><button type="button" data-aegis-tool="recovery-vault">Recovery access <em>APPROVAL</em></button></div><p class="aegis-flow-note">Simulated systems only. AEGIS never exposes direct production credentials in this demo.</p></div>
+        <div><p class="aegis-flow-label">OPERATOR TEST</p><p class="aegis-flow-copy">Run a controlled delegation check through the server-side policy detector.</p><div class="aegis-flow-buttons"><button type="button" data-aegis-test="unsafe">Test unsafe request</button><button type="button" data-aegis-test="safe">Test verified request</button></div><div class="aegis-tool-row"><button type="button" data-aegis-tool="payroll-summary">Protected payroll summary <em>MASK</em></button><button type="button" data-aegis-tool="recovery-vault">Recovery access <em>APPROVAL</em></button></div><p class="aegis-flow-note">Synthetic data only. AEGIS never stores or exposes direct production credentials.</p></div>
         <div class="aegis-flow-result" aria-live="polite"><p class="aegis-flow-label">POLICY OUTCOME</p><strong>Ready for evaluation</strong><p>Choose a test to calculate the policy decision.</p><div class="aegis-live-event"><i></i> Live policy event stream</div></div>
       </div>`;
     workspace.prepend(panel);
