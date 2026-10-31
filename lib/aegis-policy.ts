@@ -1,4 +1,7 @@
 import { demoPolicies, type PolicyDecision } from "@/lib/aegis-demo";
+// Integration ingestion and the dashboard use the same delegated-access policy extension.
+export { evaluateDelegatedAccess } from "./delegated-policy.mjs";
+export { matchDeputyConditions, analyzePrototypeInput } from "./deputy-rule.mjs";
 
 export const policyScenarios = [
   "payroll-summary",
