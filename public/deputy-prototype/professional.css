@@ -55,3 +55,6 @@ button[class*="bg-emerald"], button[class*="bg-green"] { box-shadow: 0 8px 18px 
   body { background: var(--aegis-paper) !important; }
   .rounded-xl.border { box-shadow: none !important; }
 }
+
+/* Restore every stage panel while the static HTML cache refreshes. */
+div[data-slot="sidebar-wrapper"] main main > section:nth-of-type(n+3) { display: block !important; }
