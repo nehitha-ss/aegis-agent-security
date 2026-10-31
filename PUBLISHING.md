@@ -10,12 +10,10 @@ The original Vercel prototype and the existing Sites project are unchanged.
 `https://github.com/nehitha-ss/aegis-agent-security`:
 
 - AEGIS console: Node 24 / Next.js, public, health `/api/health`.
-- AEGIS ingestion: authenticated Node service, persistent evidence disk.
-- Northstar Finance: independent Python FastAPI service, persistent fake-finance disk.
+- AEGIS ingestion: authenticated Node service, temporary SQLite evidence storage.
+- Northstar Finance: independent Python FastAPI service, temporary fake-finance storage.
 
-The frontend can use Render's free plan. The two services with persistent disks
-require paid compute. No paid service or disk has been created or charged.
-Review the actual monthly estimate in Render before authorising provisioning.
+All three services use the free plan with no disks or paid resources. Free services sleep while idle and may take time to wake up. Filesystem contents, demo balances, sessions and event history may reset on restarts or redeploys.
 These service names are configuration names, not confirmed public domains.
 
 The local Vinext build remains available. The separate public-hosting scripts
@@ -25,25 +23,25 @@ runtime cannot run the Python and SQLite processes unchanged.
 ## Account requirements
 
 1. Connect GitHub as **nehitha-ss**, with write access to the selected repository.
-   The currently observed account is shozzz-coder; do not publish under that account.
+   The GitHub browser session is nehitha-ss; the separate connector account has no write access.
 2. Install/connect Render using the intended owner/workspace and verify its identity.
 3. Push this dedicated branch only. Do not modify main or deploy an existing service.
-4. Confirm the actual paid hosting estimate before creating billable resources.
+4. Keep every service on Free and do not attach paid disks.
 
 ## Deployment order and configuration
 
-Create the ingestion service first, with a persistent disk mounted at `/var/data`.
+Create the ingestion service first on Free, with no persistent disk.
 Set `AEGIS_OWNER_KEYS` privately (JSON map of owner to a random private key of at
 least 32 characters). Never put that value in the repository or public frontend.
 Use `AEGIS_INTEGRATION_HOST=0.0.0.0` on this hosting target, and port 10000.
 Set `AEGIS_ORIGIN` to the eventual exact public AEGIS console HTTPS origin.
 Until the console exists and this value is correct, owner sign-in will be blocked.
 
-Create the Finance service with its persistent disk and generated secrets. Set
+Create the Finance service on Free with generated secrets. Set
 `AEGIS_ENDPOINT` to the actual HTTPS ingestion origin. Privately register Northstar
 using the ingestion owner's API (the Python connector registration helper is
 available), then supply its returned `AEGIS_APP_ID` and `AEGIS_CONNECTION_KEY`
-as Finance runtime secrets. Owner registration requires the exact configured Origin.
+as Finance runtime secrets. To retain the registration across free-hosting restarts, set ingestion's private `AEGIS_BOOTSTRAP_APPS` to a JSON array of `{id, owner, name, key}` using that same application ID and connection key. Only configured owners are accepted; conflicts with stored credentials fail startup. Never put this value in source control. Owner registration requires the exact configured Origin.
 Generate a separate `AEGIS_PSEUDONYM_KEY`; do not reuse an owner/connection key.
 Do not label the connection as received/live before actual reports arrive.
 
@@ -72,8 +70,7 @@ rebuilding the console because its public link is embedded at build time.
 
 Local unsaved edits do not change the public sites. Save, commit and push the
 intended changes to this branch. A failed build leaves the previous deployment
-in place. Persistent disks retain application records across normal redeploys;
-disk-attached services may briefly stop during deployment. This is not an
+in place. Free SQLite records are temporary and can reset across redeploys; bootstrap registration restores only the configured connection, not past events. This is not an
 unattended watcher that publishes all filesystem changes.
 
 ## Limits
