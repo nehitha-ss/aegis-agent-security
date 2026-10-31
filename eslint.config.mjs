@@ -9,9 +9,14 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
+    ".next-public/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Recovered immutable application build and local scratch are not editable source.
+    "public/deputy-prototype/_next/**",
+    "work/**",
+    ".venv/**",
   ]),
   {
     files: ["components/ui/**/*.{ts,tsx}", "hooks/use-mobile.ts"],

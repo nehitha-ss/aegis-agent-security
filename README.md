@@ -1,5 +1,15 @@
 # AEGIS
 
+## Separate Northstar FastAPI integration
+
+The local home now preserves the requested confused-deputy prototype using its
+recovered public client build. Read [PROTOTYPE-RECOVERY.md](./PROTOTYPE-RECOVERY.md)
+for the source-recovery boundary. The protected connector view is `/integrations`.
+
+See [INTEGRATION.md](./INTEGRATION.md) for the isolated local finance application,
+Python connector, authenticated ingestion service, protected dashboard view,
+security scenarios, tests and hosting requirements. This branch is not deployed.
+
 Before working on AEGIS, read [AGENTS.md](./AGENTS.md) and [PROJECT.md](./PROJECT.md). They contain the required product context, security constraints, and current roadmap.
 
 ---

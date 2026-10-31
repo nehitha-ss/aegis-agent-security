@@ -118,6 +118,55 @@ Never use real personal or company data in the demo.
 
 ## Current build state
 
+### Isolated Northstar integration branch (2026-10-31)
+
+Public deployment preparation now targets the nehitha-ss account and the existing
+dedicated feature branch only. `render.yaml`, CI checks and a separate Node/Next
+public build support three services with two persistent disks. No new hosted
+resources exist yet: Render connection, correct GitHub write identity, actual
+service origins and hosting-cost approval remain necessary. See PUBLISHING.md.
+
+Integrations now follows the Chain Guard screenshot's access flow: shared public
+demo code `stuportal123`, backend-framework selection, and a collapsible read-only
+Northstar Finance sample. The sample view is explicitly illustrative, has no
+registered-app data or owner credentials, and grants no backend permissions.
+Private owner access still protects registration and actual received evidence.
+Selecting Python — FastAPI also exposes a direct Open Northstar Finance button
+outside the sample card. It opens the separate finance service in a new tab;
+the configured direct demo entry now creates an ordinary session for a dedicated
+shared fictional visitor customer without asking for a password. The setting
+persists in the ignored environment and the entry works after restarts. Private
+customer/owner passwords, ownership/tenant checks and owner-only labs remain intact.
+
+The local entry interface has since been corrected to the requested public
+confused-deputy prototype. A provenance-recorded published client-build snapshot
+preserves its nine-step UI, and `/integrations` uses the matching navigation.
+The original agent-security page is retained at `/agent-legacy`. The manual
+analysis compatibility endpoint and authenticated received-flow evaluator share
+`lib/deputy-rule.mjs`, with evidence confirmation required only for received flows.
+The Vercel source/backend were not recovered; see `PROTOTYPE-RECOVERY.md`.
+
+The separate `feature/northstar-fastapi-integration` branch adds an independent
+fictional FastAPI finance app and reusable Python monitoring connector, an
+authenticated Node/SQLite ingestion service, an evidence-based delegated-access
+extension to the AEGIS policy module, and an owner-protected Integrations view.
+The original dashboard and agent-gateway scenarios are preserved. These changes
+do not edit the public Vercel confused-deputy prototype, whose source is not this
+repository. No deployment or main-branch update was performed.
+
+Northstar has two fictional tenants, server-side customer sessions and ownership
+checks, atomic simulated transfers, and an owner-only lab. Unsafe helpers require
+an explicitly enabled isolated demo flag plus a single-use signed owner permit;
+ordinary customers always use corrected authorisation. Received reports contain
+only allowlisted pseudonymous identities and policy facts. Complete evidence is
+required for bypass findings; missing or inconsistent evidence is unknown.
+
+Integration evidence and owner sessions persist in local SQLite; the original
+agent-gateway session state remains in memory. Monitoring is not enforcement.
+The new integration does not claim to provide a production identity provider,
+durable retries, a tamper-evident ledger, or a production banking connection.
+Setup, verification, hosting requirements and limitations are in `INTEGRATION.md`.
+
 The application is a polished React/Vinext and Tailwind control room with a local, server-side AEGIS demo gateway and a narrow local MCP server. The visual registry, twin, and policy library still use fictional mock data; protected requests execute through local API routes and are streamed back to the dashboard. A fresh Codex CLI session discovered the registered MCP server and completed both the masked finance read and the denied payroll-deletion test.
 
 The current activity feed receives local gateway and MCP-client events. The local gateway evaluates reusable rules, including a real in-memory containment state that stops later requests. Data DNA selection remains a browser interaction. The verified Codex test used the local gateway only; no real company system or production credential was involved. A server-only Supabase Postgres adapter and restricted-function migration are now ready for an opt-in fictional database connection; without `AEGIS_DATABASE_URL`, the gateway safely uses the local fictional fixture.
@@ -194,6 +243,12 @@ The current activity feed receives local gateway and MCP-client events. The loca
 ## Delivery roadmap
 
 ### Next build slice — fictional Supabase connection, durable evidence, and approvals
+
+For the isolated finance integration, the next slice is owner-reviewed hosting
+on separate URLs, secret/key lifecycle controls, durable report retries and
+retention/shared-storage support. Keep unsafe demo mode disabled by default.
+Do not deploy this branch or merge it into main without explicit instruction.
+The existing agent-security roadmap below remains applicable to the original gateway.
 
 Create the isolated Supabase demo project and wire its restricted `aegis_gateway` connection into local `.env.local`. Then persist policy decisions, PRISM state, and containment records outside the running local process. Add an explicit human-approval queue for recovery-vault access, with short-lived approved capabilities and an auditable approver record.
 
