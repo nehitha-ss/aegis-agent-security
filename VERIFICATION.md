@@ -30,3 +30,12 @@ The public client build is recovered, not the original editable Vercel source. I
 
 Not tested: public hosting, multi-instance storage, production banking, penetration testing, or recovery of the separate Vercel prototype source.
 GitHub upload remains unavailable because the connected account lacks repository write access and local Git authentication is unavailable. No push, merge or deployment was made.
+
+
+## Public verification — 2026-10-31
+
+All three new services deployed on Render Free from commit 78994c618eecae68d4f6a6f243e2b64225a5d774. GitHub Actions run 41194473530 completed successfully, including 10 Node tests, 10 Python end-to-end tests, typecheck, lint, Vinext build and Next public production build. Public direct visitor entry, own-statement allow, other-customer statement denial, owner sign-in and correlated authenticated AEGIS evidence were verified. Public manual vulnerable preset returned demo risk 94 with an explicit non-proof label. Registration survived an observed service redeploy through private bootstrap configuration; histories and sessions reset as documented. Unsafe helper mode remains disabled in the public finance service.
+
+AEGIS: https://aegis-northstar-console.onrender.com/
+Northstar: https://northstar-finance-demo.onrender.com/demo/open
+The original Vercel site and main branch were not modified.
