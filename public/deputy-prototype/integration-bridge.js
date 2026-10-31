@@ -45,6 +45,12 @@
         <div><span class="aegis-operator-avatar" aria-hidden="true">NA</span><strong>Northstar demo workspace</strong><small>Signed in as Analyst · role-scoped access</small></div>
         <ul aria-label="Simulated connected systems"><li>Google Workspace</li><li>Slack</li><li>Finance</li><li>Payroll</li></ul>
       </div>
+      <section class="aegis-command-grid" aria-label="AEGIS control room status">
+        <article><span>LIVE REQUESTS</span><strong>03</strong><small>1 is waiting at policy review</small></article>
+        <article class="is-protected"><span>RISK POSTURE</span><strong>GUARDED</strong><small>Payroll remains behind AEGIS</small></article>
+        <article class="is-pending"><span>APPROVAL QUEUE</span><strong>01</strong><small>Recovery-vault request pending</small></article>
+        <article class="is-evidence"><span>EVIDENCE</span><strong>ACTIVE</strong><small>Decision receipts enabled</small></article>
+      </section>
       <ol class="aegis-flow-steps" aria-label="Request processing steps">
         <li class="is-current"><span>01 · REQUEST</span><strong>Capture caller intent</strong><small>Expense Intake → Finance</small></li>
         <li><span>02 · VERIFY</span><strong>Check identity and scope</strong><small>Caller context · trust · authority</small></li>
@@ -52,7 +58,7 @@
       </ol>
       <div class="aegis-flow-actions">
         <div><p class="aegis-flow-label">OPERATOR TEST</p><p class="aegis-flow-copy">Run a fictional delegation check through the server-side policy detector.</p><div class="aegis-flow-buttons"><button type="button" data-aegis-test="unsafe">Test unsafe request</button><button type="button" data-aegis-test="safe">Test verified request</button></div><div class="aegis-tool-row"><button type="button" data-aegis-tool="payroll-summary">Protected payroll summary <em>MASK</em></button><button type="button" data-aegis-tool="recovery-vault">Recovery access <em>APPROVAL</em></button></div><p class="aegis-flow-note">Simulated systems only. AEGIS never exposes direct production credentials in this demo.</p></div>
-        <div class="aegis-flow-result" aria-live="polite"><p class="aegis-flow-label">POLICY OUTCOME</p><strong>Ready for evaluation</strong><p>Choose a test to calculate the policy decision.</p></div>
+        <div class="aegis-flow-result" aria-live="polite"><p class="aegis-flow-label">POLICY OUTCOME</p><strong>Ready for evaluation</strong><p>Choose a test to calculate the policy decision.</p><div class="aegis-live-event"><i></i> Live policy event stream</div></div>
       </div>`;
     workspace.prepend(panel);
 
@@ -81,7 +87,8 @@
         const headline = document.createElement("strong"); headline.textContent = blocked ? "BLOCKED BEFORE PAYROLL" : "VERIFIED FOR RELEASE";
         const explanation = document.createElement("p"); explanation.textContent = data.explanation;
         const detail = document.createElement("small"); detail.textContent = `${data.matchedConditions}/5 signals · ${data.runId}`;
-        result.append(label, headline, explanation, detail);
+        const event = document.createElement("div"); event.className = "aegis-live-event"; event.innerHTML = "<i></i> Decision receipt recorded";
+        result.append(label, headline, explanation, detail, event);
       } catch (error) {
         result.className = "aegis-flow-result is-error";
         result.innerHTML = '<p class="aegis-flow-label">POLICY OUTCOME</p><strong>Check unavailable</strong><p></p>';
@@ -110,7 +117,8 @@
         const headline = document.createElement("strong"); headline.textContent = approval ? "HUMAN APPROVAL REQUIRED" : "MASKED RESULT RELEASED";
         const explanation = document.createElement("p"); explanation.textContent = data.summary;
         const detail = document.createElement("small"); detail.textContent = `${data.policy || "recovery-vault-gate"} · ${data.requestId || data.approvalId}`;
-        result.append(label, headline, explanation, detail);
+        const event = document.createElement("div"); event.className = "aegis-live-event"; event.innerHTML = "<i></i> Decision receipt recorded";
+        result.append(label, headline, explanation, detail, event);
       } catch (error) {
         result.className = "aegis-flow-result is-error";
         result.innerHTML = '<p class="aegis-flow-label">POLICY OUTCOME</p><strong>Check unavailable</strong><p></p>';
