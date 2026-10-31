@@ -60,25 +60,19 @@
       if (description) description.textContent = copy[name] || "Review the current AEGIS analysis stage.";
     }
   }
-  new MutationObserver(install).observe(document.documentElement, {
-    subtree: true,
-    childList: true,
-  });
-  install();
-  // The recovered export streams its nested workspace after the deferred
-  // bridge is evaluated. Retry at the browser lifecycle boundaries so the
-  // presentation frame is present on both a cold load and client navigation.
-  document.addEventListener("DOMContentLoaded", install, { once: true });
-  window.addEventListener("load", install, { once: true });
-  setTimeout(install, 120);
-  let workspaceAttempts = 0;
-  const workspaceTimer = setInterval(() => {
+  // This recovered page hydrates asynchronously. Use a short, bounded startup
+  // retry instead of observing every DOM mutation—an observer can make a busy
+  // dashboard unresponsive while React is updating its evidence panels.
+  let startupAttempts = 0;
+  const installWhenReady = () => {
     install();
-    workspaceAttempts += 1;
-    if (document.getElementById("aegis-workspace-chrome") || workspaceAttempts >= 30) {
-      clearInterval(workspaceTimer);
+    startupAttempts += 1;
+    if (!document.getElementById("aegis-workspace-chrome") && startupAttempts < 8) {
+      setTimeout(installWhenReady, 180);
     }
-  }, 100);
+  };
+  installWhenReady();
+  window.addEventListener("load", installWhenReady, { once: true });
   document.addEventListener("click", event => {
     if (event.target.closest('[data-sidebar="menu-button"]')) requestAnimationFrame(install);
   });
