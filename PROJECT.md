@@ -122,8 +122,7 @@ Never use real personal or company data in the demo.
 
 Public deployment preparation now targets the nehitha-ss account and the existing
 dedicated feature branch only. `render.yaml`, CI checks and a separate Node/Next
-public build support three free services with temporary SQLite storage. No new hosted
-resources exist yet. Source upload is in progress as nehitha-ss; actual service origins and deployment verification remain necessary. Free-only hosting is approved, with restart/reset limits. See PUBLISHING.md.
+public build support three free services with temporary SQLite storage. Three new Render Free services are deployed and verified as nehitha-ss. The public AEGIS URL is https://aegis-northstar-console.onrender.com/ and the finance entry is https://northstar-finance-demo.onrender.com/demo/open. Authenticated correlated reports were verified end to end; Linux CI passed all 20 tests and both builds. Free-only hosting is approved, with restart/reset limits. See PUBLISHING.md.
 
 Integrations now follows the Chain Guard screenshot's access flow: shared public
 demo code `stuportal123`, backend-framework selection, and a collapsible read-only
@@ -151,7 +150,7 @@ authenticated Node/SQLite ingestion service, an evidence-based delegated-access
 extension to the AEGIS policy module, and an owner-protected Integrations view.
 The original dashboard and agent-gateway scenarios are preserved. These changes
 do not edit the public Vercel confused-deputy prototype, whose source is not this
-repository. No deployment or main-branch update was performed.
+repository. A separate Render deployment was performed with explicit user authorisation; main and the original Vercel URL remain unchanged.
 
 Northstar has two fictional tenants, server-side customer sessions and ownership
 checks, atomic simulated transfers, and an owner-only lab. Unsafe helpers require
