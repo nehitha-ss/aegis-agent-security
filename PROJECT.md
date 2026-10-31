@@ -135,6 +135,14 @@ the AEGIS sidebar, header, cards, evidence panels, and all recovered stages.
 Only `professional.css` changed; detection logic, trust-graph relationships,
 routes, and controls remain untouched.
 
+The recovered public detector now also has a three-step **AEGIS enforcement
+path** injected through its supported `integration-bridge.js` extension. The
+operator can submit an unsafe or verified fictional delegation scenario; both
+buttons call the server-side `/api/detector/analyze` rule before presenting the
+allow-or-block result. The panel is deliberately marked as a fictional demo and
+does not contact the Northstar Finance service, expose credentials, or claim a
+real payroll decision.
+
 ### Isolated Northstar integration branch (2026-10-31)
 
 Public deployment preparation now targets the nehitha-ss account and the existing
@@ -262,6 +270,9 @@ The current activity feed receives local gateway and MCP-client events. The loca
 For the recovered deputy prototype, keep future visual refinements in
 `public/deputy-prototype/professional.css`; do not modify the recovered static
 stage markup or generated interaction bundle for presentation-only work.
+Keep functional additions isolated in `public/deputy-prototype/integration-bridge.js`
+and backed by a validated server route; do not add browser-held secrets or make
+the fictional enforcement-path result look like an authenticated Northstar event.
 
 For the isolated finance integration, the next slice is owner-reviewed hosting
 on separate URLs, secret/key lifecycle controls, durable report retries and
