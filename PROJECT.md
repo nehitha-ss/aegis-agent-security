@@ -143,6 +143,14 @@ allow-or-block result. The panel is deliberately marked as a fictional demo and
 does not contact the Northstar Finance service, expose credentials, or claim a
 real payroll decision.
 
+The gateway now includes a compact simulated company workspace strip (analyst
+role and connected-system labels), plus working protected-summary and
+recovery-vault request demonstrations. The summary uses the existing server-side
+AEGIS gateway and releases only a masked result; the recovery route produces a
+bounded pending approval record and never creates a capability or releases
+vault material. Google/Slack/Payroll badges and sign-in are visual demo states,
+not authenticated third-party connections.
+
 ### Isolated Northstar integration branch (2026-10-31)
 
 Public deployment preparation now targets the nehitha-ss account and the existing
@@ -281,6 +289,12 @@ Do not deploy this branch or merge it into main without explicit instruction.
 The existing agent-security roadmap below remains applicable to the original gateway.
 
 Create the isolated Supabase demo project and wire its restricted `aegis_gateway` connection into local `.env.local`. Then persist policy decisions, PRISM state, and containment records outside the running local process. Add an explicit human-approval queue for recovery-vault access, with short-lived approved capabilities and an auditable approver record.
+
+Replace the public prototype's bounded pending-approval demonstration with that
+durable, identity-verified queue only after an approved company SSO/identity
+provider and approver ownership model are available. Do not turn the simulated
+Google Workspace, Slack, Finance, or Payroll labels into live connections until
+their OAuth scopes, secret storage, and administrator consent are configured.
 
 ### Verified integration — Codex MCP
 

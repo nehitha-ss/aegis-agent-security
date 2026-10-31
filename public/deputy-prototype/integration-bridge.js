@@ -41,13 +41,17 @@
         <div><p class="aegis-flow-kicker">VERIFICATION GATEWAY</p><h2>AEGIS checks delegated payroll requests</h2><p>One policy checkpoint before the simulated Payroll Ledger boundary.</p></div>
         <span class="aegis-flow-badge">FICTIONAL DEMO</span>
       </div>
+      <div class="aegis-operator-strip" aria-label="Demo operator and connected systems">
+        <div><span class="aegis-operator-avatar" aria-hidden="true">NA</span><strong>Northstar demo workspace</strong><small>Signed in as Analyst · role-scoped access</small></div>
+        <ul aria-label="Simulated connected systems"><li>Google Workspace</li><li>Slack</li><li>Finance</li><li>Payroll</li></ul>
+      </div>
       <ol class="aegis-flow-steps" aria-label="Request processing steps">
         <li class="is-current"><span>01 · REQUEST</span><strong>Capture caller intent</strong><small>Expense Intake → Finance</small></li>
         <li><span>02 · VERIFY</span><strong>Check identity and scope</strong><small>Caller context · trust · authority</small></li>
         <li><span>03 · DECIDE</span><strong>Allow or block payroll</strong><small>Decision returned before access</small></li>
       </ol>
       <div class="aegis-flow-actions">
-        <div><p class="aegis-flow-label">OPERATOR TEST</p><p class="aegis-flow-copy">Run a fictional delegation check through the server-side policy detector.</p><div class="aegis-flow-buttons"><button type="button" data-aegis-test="unsafe">Test unsafe request</button><button type="button" data-aegis-test="safe">Test verified request</button></div><p class="aegis-flow-note">Unsafe substitutes Finance’s payroll identity. Verified preserves caller context and removes deputy-only authority.</p></div>
+        <div><p class="aegis-flow-label">OPERATOR TEST</p><p class="aegis-flow-copy">Run a fictional delegation check through the server-side policy detector.</p><div class="aegis-flow-buttons"><button type="button" data-aegis-test="unsafe">Test unsafe request</button><button type="button" data-aegis-test="safe">Test verified request</button></div><div class="aegis-tool-row"><button type="button" data-aegis-tool="payroll-summary">Protected payroll summary <em>MASK</em></button><button type="button" data-aegis-tool="recovery-vault">Recovery access <em>APPROVAL</em></button></div><p class="aegis-flow-note">Simulated systems only. AEGIS never exposes direct production credentials in this demo.</p></div>
         <div class="aegis-flow-result" aria-live="polite"><p class="aegis-flow-label">POLICY OUTCOME</p><strong>Ready for evaluation</strong><p>Choose a test to calculate the policy decision.</p></div>
       </div>`;
     workspace.prepend(panel);
@@ -84,6 +88,35 @@
         result.querySelector("p:last-child").textContent = error instanceof Error ? error.message : "The policy check could not be completed.";
       } finally {
         buttons.forEach((control) => control.disabled = false);
+      }
+    }));
+    panel.querySelectorAll("[data-aegis-tool]").forEach((button) => button.addEventListener("click", async () => {
+      const tool = button.getAttribute("data-aegis-tool");
+      const controls = [...panel.querySelectorAll("[data-aegis-tool]")];
+      controls.forEach((control) => control.disabled = true);
+      result.className = "aegis-flow-result is-checking";
+      result.innerHTML = '<p class="aegis-flow-label">POLICY OUTCOME</p><strong>Verifying protected request…</strong><p>AEGIS is evaluating the requested business action.</p>';
+      try {
+        const request = tool === "payroll-summary"
+          ? fetch("/api/aegis/requests", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ scenario: "payroll-summary", actor: "demo-agent", period: "2026-09" }) })
+          : fetch("/api/aegis/approval-requests", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "recovery-vault", requesterRole: "analyst" }) });
+        const response = await request;
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "The policy check could not be completed.");
+        const approval = data.decision === "APPROVAL";
+        result.className = `aegis-flow-result ${approval ? "is-approval" : "is-allowed"}`;
+        result.innerHTML = "";
+        const label = document.createElement("p"); label.className = "aegis-flow-label"; label.textContent = `DECISION · ${data.decision}`;
+        const headline = document.createElement("strong"); headline.textContent = approval ? "HUMAN APPROVAL REQUIRED" : "MASKED RESULT RELEASED";
+        const explanation = document.createElement("p"); explanation.textContent = data.summary;
+        const detail = document.createElement("small"); detail.textContent = `${data.policy || "recovery-vault-gate"} · ${data.requestId || data.approvalId}`;
+        result.append(label, headline, explanation, detail);
+      } catch (error) {
+        result.className = "aegis-flow-result is-error";
+        result.innerHTML = '<p class="aegis-flow-label">POLICY OUTCOME</p><strong>Check unavailable</strong><p></p>';
+        result.querySelector("p:last-child").textContent = error instanceof Error ? error.message : "The policy check could not be completed.";
+      } finally {
+        controls.forEach((control) => control.disabled = false);
       }
     }));
   }
