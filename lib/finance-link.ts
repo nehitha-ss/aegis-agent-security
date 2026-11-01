@@ -1,3 +1,4 @@
-// A public website address, never a connection key or owner credential.
-export const financeOrigin = (process.env.NEXT_PUBLIC_NORTHSTAR_URL || "http://localhost:8000").replace(/\/$/, "");
+// The public Northstar Finance customer demo. This is intentionally a fixed
+// public origin so the Integrations button never loops back into AEGIS.
+export const financeOrigin = "https://northstar-finance-demo.onrender.com";
 export const financeDemoLink = `${financeOrigin}/demo/open`;
