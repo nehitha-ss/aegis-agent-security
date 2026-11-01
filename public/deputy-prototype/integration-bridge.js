@@ -74,16 +74,30 @@
     // this gateway in the Microservices view only, rather than duplicating it
     // above every analysis stage.
     const stageButtons = [...document.querySelectorAll('[data-sidebar="menu-button"]')];
+    const syncStageLayout = (activeIndex) => {
+      document.querySelectorAll(".aegis-stacked-stage-layout").forEach((node) => node.classList.remove("aegis-stacked-stage-layout"));
+      if (![5, 7].includes(activeIndex)) return;
+      const layout = [...workspace.querySelectorAll("section, div")].find((node) => {
+        const classes = typeof node.className === "string" ? node.className : "";
+        const cards = [...node.children].filter((child) => child.classList?.contains("overflow-hidden"));
+        return classes.includes("grid-cols") && cards.length >= 2;
+      });
+      layout?.classList.add("aegis-stacked-stage-layout");
+    };
     const syncGatewayVisibility = () => {
       const active = document.querySelector('[data-sidebar="menu-button"][data-active="true"]');
       const activeIndex = stageButtons.indexOf(active);
-      if (activeIndex >= 0) document.documentElement.dataset.aegisStage = String(activeIndex);
+      if (activeIndex >= 0) {
+        document.documentElement.dataset.aegisStage = String(activeIndex);
+        syncStageLayout(activeIndex);
+      }
       panel.hidden = active ? active !== stageButtons[0] : false;
     };
     syncGatewayVisibility();
-    stageButtons.forEach((stageButton) => stageButton.addEventListener("click", () => {
-      window.setTimeout(syncGatewayVisibility, 0);
-      window.setTimeout(syncGatewayVisibility, 80);
+    stageButtons.forEach((stageButton, index) => stageButton.addEventListener("click", () => {
+      document.documentElement.dataset.aegisStage = String(index);
+      syncStageLayout(index);
+      [0, 80, 300, 850].forEach((delay) => window.setTimeout(syncGatewayVisibility, delay));
     }));
     fetch("/api/auth/session", { credentials: "same-origin" }).then((response) => response.ok ? response.json() : null).then((data) => {
       const operator = panel.querySelector(".aegis-operator-identity");

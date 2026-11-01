@@ -620,4 +620,8 @@ main section[class*="1.22fr"] {
   :root[data-aegis-stage="7"] main section[class*="xl:grid-cols"] {
     grid-template-columns:minmax(0,1fr) !important;
   }
+
+  main .aegis-stacked-stage-layout {
+    grid-template-columns:minmax(0,1fr) !important;
+  }
 }
