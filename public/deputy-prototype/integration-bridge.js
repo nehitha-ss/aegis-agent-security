@@ -193,7 +193,7 @@
     if (document.getElementById("aegis-compact-backend")) return;
     const backendStyle = document.createElement("link");
     backendStyle.rel = "stylesheet";
-    backendStyle.href = "/deputy-prototype/professional.css?backend=1";
+    backendStyle.href = "/deputy-prototype/professional.css?backend=2";
     document.head.append(backendStyle);
     document.body.classList.add("aegis-compact-backend");
     const view = document.createElement("main");
