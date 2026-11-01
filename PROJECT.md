@@ -165,6 +165,14 @@ bounded pending approval record and never creates a capability or releases
 vault material. Google/Slack/Payroll badges and sign-in are visual demo states,
 not authenticated third-party connections.
 
+Northstar Finance now exposes a compact AEGIS control-room shortcut in its
+header. The shortcut opens a separate operator backend view rather than the
+full nine-stage prototype. It contains only policy decision tests backed by
+`/api/detector/analyze`, payroll-protection status and the protected vault
+entry, the bounded approval-request flow, and a clearly labeled browser-session
+decision activity list. The full detector remains available from the compact
+view. The activity list is not represented as a durable audit ledger.
+
 ### Isolated Northstar integration branch (2026-10-31)
 
 Public deployment preparation now targets the nehitha-ss account and the existing
@@ -304,6 +312,9 @@ stage markup or generated interaction bundle for presentation-only work.
 Keep functional additions isolated in `public/deputy-prototype/integration-bridge.js`
 and backed by a validated server route; do not add browser-held secrets or make
 the fictional enforcement-path result look like an authenticated Northstar event.
+Keep the compact `?backend=1` operator view focused on these existing
+operational surfaces; do not represent its browser-session activity list as a
+durable audit ledger without server-side evidence persistence.
 
 For the isolated finance integration, the next slice is owner-reviewed hosting
 on separate URLs, secret/key lifecycle controls, durable report retries and

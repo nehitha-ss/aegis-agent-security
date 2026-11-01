@@ -189,15 +189,53 @@
       }
     }));
   }
+  function installCompactBackend() {
+    if (document.getElementById("aegis-compact-backend")) return;
+    const backendStyle = document.createElement("link");
+    backendStyle.rel = "stylesheet";
+    backendStyle.href = "/deputy-prototype/professional.css?backend=1";
+    document.head.append(backendStyle);
+    document.body.classList.add("aegis-compact-backend");
+    const view = document.createElement("main");
+    view.id = "aegis-compact-backend";
+    view.setAttribute("aria-label", "AEGIS security control room");
+    view.innerHTML = `
+      <header class="aegis-backend-header"><a class="aegis-backend-brand" href="/deputy-prototype/index.html?backend=1" aria-label="AEGIS control room"><span>◈</span><b>AEGIS</b><small>SECURITY CONTROL ROOM</small></a><div><a class="aegis-backend-link" href="/deputy-prototype/index.html">Full detector</a><span class="aegis-backend-live"><i></i> Policy gateway online</span></div></header>
+      <section class="aegis-backend-intro"><div><p>OPERATOR BACKEND</p><h1>Northstar Finance protection</h1><span>Enforce a policy decision before payroll access is released.</span></div><a href="https://northstar-finance-demo.onrender.com/payroll" target="_blank" rel="noopener noreferrer">Open payroll vault ↗</a></section>
+      <section class="aegis-backend-stats" aria-label="Security status"><article><span>RISK POSTURE</span><strong>GUARDED</strong><small>Payroll boundary protected</small></article><article><span>ACCESS REQUESTS</span><strong>01</strong><small>Review pending</small></article><article><span>PAYROLL DATA</span><strong>MASKED</strong><small>Owner verification required</small></article><article><span>DECISION LOG</span><strong data-aegis-log-count>00</strong><small>This session</small></article></section>
+      <section class="aegis-backend-grid">
+        <article class="aegis-backend-card aegis-backend-action"><div class="aegis-backend-card-head"><div><p>ACCESS DECISION</p><h2>Test a delegated request</h2></div><span>SERVER-SIDE</span></div><p>AEGIS checks identity propagation and sensitive authority before Payroll Ledger is reached.</p><div class="aegis-backend-actions"><button type="button" data-aegis-compact-test="unsafe">Block unsafe request</button><button type="button" data-aegis-compact-test="safe">Verify safe request</button></div><div class="aegis-backend-result" aria-live="polite"><strong>Ready for review</strong><span>Select a request to record a policy decision.</span></div></article>
+        <article class="aegis-backend-card"><div class="aegis-backend-card-head"><div><p>PAYROLL PROTECTION</p><h2>Restricted company data</h2></div><span class="aegis-backend-mask">MASKED</span></div><dl class="aegis-backend-fields"><div><dt>Data source</dt><dd>Northstar Payroll Vault</dd></div><div><dt>Default handling</dt><dd>Masked at retrieval</dd></div><div><dt>Unmask authority</dt><dd>Verified Finance owner</dd></div></dl><a class="aegis-backend-primary-link" href="https://northstar-finance-demo.onrender.com/payroll" target="_blank" rel="noopener noreferrer">Open protected payroll folder ↗</a></article>
+        <article class="aegis-backend-card"><div class="aegis-backend-card-head"><div><p>APPROVALS</p><h2>Recovery access</h2></div><span class="aegis-backend-pending">PENDING</span></div><p>A sensitive recovery-vault request is paused until a named approver reviews it.</p><button type="button" class="aegis-backend-outline" data-aegis-compact-approval>Request approval</button><div class="aegis-backend-approval" aria-live="polite">No approval requested in this session.</div></article>
+        <article class="aegis-backend-card"><div class="aegis-backend-card-head"><div><p>AUDIT</p><h2>Decision activity</h2></div><span>SESSION</span></div><ol class="aegis-backend-log" aria-live="polite"><li><time>NOW</time><span>Control room opened</span><b>READY</b></li></ol><small class="aegis-backend-note">Session activity is shown here. Durable evidence is retained only when a configured integration records it.</small></article>
+      </section>`;
+    document.body.append(view);
+    const log = view.querySelector(".aegis-backend-log");
+    const count = view.querySelector("[data-aegis-log-count]");
+    let decisions = 0;
+    const addLog = (label, status) => { decisions += 1; count.textContent = String(decisions).padStart(2, "0"); const item = document.createElement("li"); const time = document.createElement("time"); time.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); const text = document.createElement("span"); text.textContent = label; const badge = document.createElement("b"); badge.textContent = status; item.append(time, text, badge); log.prepend(item); };
+    const result = view.querySelector(".aegis-backend-result");
+    const presets = { unsafe: { callerService: "Expense Intake API", deputyService: "Finance Orchestrator", sensitiveResource: "Payroll Ledger", callerCanInvokeDeputy: true, deputyUsesOwnIdentity: true, callerContextPropagated: false, resourceAuthorizesDeputyOnly: true, deputyHasSensitiveScope: true }, safe: { callerService: "Expense Intake API", deputyService: "Finance Orchestrator", sensitiveResource: "Payroll Ledger", callerCanInvokeDeputy: true, deputyUsesOwnIdentity: false, callerContextPropagated: true, resourceAuthorizesDeputyOnly: false, deputyHasSensitiveScope: false } };
+    view.querySelectorAll("[data-aegis-compact-test]").forEach((button) => button.addEventListener("click", async () => {
+      const kind = button.getAttribute("data-aegis-compact-test"); view.querySelectorAll("[data-aegis-compact-test]").forEach((control) => { control.disabled = true; }); result.dataset.state = "checking"; result.innerHTML = "<strong>Evaluating request…</strong><span>Policy gateway is checking delegated authority.</span>";
+      try { const response = await fetch("/api/detector/analyze", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(presets[kind]) }); const data = await response.json(); if (!response.ok) throw new Error(data.error || "Policy check unavailable."); const blocked = data.decision === "ALERT"; result.dataset.state = blocked ? "blocked" : "allowed"; result.innerHTML = `<strong>${blocked ? "BLOCKED BEFORE PAYROLL" : "VERIFIED FOR RELEASE"}</strong><span></span>`; result.querySelector("span").textContent = data.explanation; addLog(blocked ? "Unsafe delegated payroll request blocked" : "Verified payroll request released", blocked ? "BLOCKED" : "ALLOW"); }
+      catch (error) { result.dataset.state = "error"; result.innerHTML = "<strong>Policy check unavailable</strong><span></span>"; result.querySelector("span").textContent = error instanceof Error ? error.message : "Policy check unavailable."; addLog("Policy check could not complete", "ERROR"); }
+      finally { view.querySelectorAll("[data-aegis-compact-test]").forEach((control) => { control.disabled = false; }); }
+    }));
+    const approvalButton = view.querySelector("[data-aegis-compact-approval]"); const approval = view.querySelector(".aegis-backend-approval");
+    approvalButton.addEventListener("click", async () => { approvalButton.disabled = true; approval.textContent = "Submitting the review request…"; try { const response = await fetch("/api/aegis/approval-requests", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "recovery-vault", requesterRole: "analyst" }) }); const data = await response.json(); if (response.status === 401) { approval.innerHTML = '<a href="/api/auth/google">Sign in with Google to request approval →</a>'; addLog("Approval requires an authenticated operator", "SIGN IN"); return; } if (!response.ok) throw new Error(data.error || "Approval request unavailable."); approval.textContent = `Approval ${data.approvalId} is pending named Finance Security review.`; addLog("Recovery-vault approval submitted", "PENDING"); } catch (error) { approval.textContent = error instanceof Error ? error.message : "Approval request unavailable."; addLog("Approval request could not complete", "ERROR"); } finally { approvalButton.disabled = false; } });
+  }
+
   // The recovered client bundle hydrates after this deferred file. Install
   // after hydration (with one bounded retry) so React does not replace the
   // extension surface with its original static tree.
-  const installExtensions = () => { install(); installEnforcementPath(); };
+  const compactBackend = new URLSearchParams(location.search).get("backend") === "1";
+  const installExtensions = () => { if (compactBackend) installCompactBackend(); else { install(); installEnforcementPath(); } };
   if (document.readyState === "complete") installExtensions();
   else window.addEventListener("load", installExtensions, { once: true });
   window.setTimeout(installExtensions, 750);
   const stage = new URLSearchParams(location.search).get("stage");
-  if (stage && /^\d$/.test(stage) && Number(stage) < 9) {
+  if (!compactBackend && stage && /^\d$/.test(stage) && Number(stage) < 9) {
     const requestedStage = Number(stage);
     // The recovered client replaces its sidebar while hydrating. Re-apply the
     // requested stage after hydration so workflow links never fall back to
