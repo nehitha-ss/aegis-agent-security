@@ -577,3 +577,10 @@ main section[class*="grid-cols"], main div[class*="grid-cols"] { align-items:sta
 :root[data-theme="dark"] .aegis-live-event { border-color:#294b6b; color:#b6c6d8; }
 :root[data-theme="dark"] .aegis-live-event i { background:#7dd3fc; box-shadow:0 0 0 3px #12344a; }
 @media (max-width:760px) { .aegis-flow-header,.aegis-flow-actions { display:block; padding:1rem; } .aegis-flow-badge { display:inline-block; margin-top:.8rem; } .aegis-operator-strip,.aegis-workflow-links { display:block; } .aegis-auth-action { margin-top:.65rem; } .aegis-operator-strip ul,.aegis-workflow-links div { justify-content:flex-start; margin-top:.55rem; } .aegis-command-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .aegis-flow-steps { grid-template-columns:1fr; } .aegis-flow-steps li { min-height:0; border-right:0; border-bottom:1px solid var(--rebuild-line); } .aegis-flow-steps li:last-child { border-bottom:0; } .aegis-flow-result { margin-top:1rem; } }
+
+/* Keep a shorter analysis card from stretching to the height of its detail
+   panel. This removes the empty area shown beside the identity transition. */
+main section[class*="grid-cols"] > .overflow-hidden {
+  align-self:start !important;
+  height:max-content !important;
+}
