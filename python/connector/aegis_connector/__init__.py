@@ -52,7 +52,7 @@ class AegisConnector:
     def event(self, *, route, phase, caller, helper, resource, caller_tenant, resource_tenant, outcome, evidence):
         """Call ONLY with identities and policy evidence obtained from trusted server code."""
         action = self.route_mappings[route]
-        if action not in {"statement.read", "transfer.create"} or phase not in {"customer", "helper", "resource"}:
+        if action not in {"statement.read", "transfer.create", "payroll.unmask"} or phase not in {"customer", "helper", "resource"}:
             raise ValueError("Unrecognised route mapping or phase")
         cid = correlation_id.get()
         uuid.UUID(cid)  # Fail closed for instrumentation mistakes, never invent separate hop IDs.

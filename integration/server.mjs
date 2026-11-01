@@ -62,7 +62,7 @@ const schema = z
     resource: pseudo,
     caller_tenant: pseudo,
     resource_tenant: pseudo,
-    action: z.enum(["statement.read", "transfer.create"]),
+    action: z.enum(["statement.read", "transfer.create", "payroll.unmask"]),
     outcome: z.enum(["allowed", "denied"]),
     evidence: z
       .object({

@@ -175,6 +175,29 @@ def test_04_transfer_updates_demo_only_and_checks_ownership(stack):
         assert customer.post("/transfers", data={"source": "acct-alex", "destination": "acct-jamie", "amount": amount, "csrf": token}).status_code == 400
 
 
+def test_04a_payroll_is_masked_until_owner_reauthenticates(stack):
+    customer = stack["customer"]
+    masked = customer.get("/payroll")
+    assert masked.status_code == 200
+    assert "M••• L•••" in masked.text
+    assert "582,400" not in masked.text
+    assert "Verify owner password" not in masked.text
+    operator = stack["operator"]
+    owner_view = operator.get("/payroll")
+    assert owner_view.status_code == 200
+    assert "Verify owner password" in owner_view.text
+    token = re.search(r'name="csrf" value="([^"]+)"', owner_view.text).group(1)
+    assert operator.post("/owner/payroll/reveal", data={"csrf": token, "password": "wrong"}).status_code == 403
+    response = operator.post("/owner/payroll/reveal", data={"csrf": token, "password": stack["env"]["NORTHSTAR_OWNER_PASSWORD"]})
+    assert response.status_code == 303
+    revealed = operator.get("/payroll")
+    assert "582,400.00" in revealed.text
+    assert "Morgan Lee" in revealed.text
+    flow = wait_flow(stack, response.headers["x-correlation-id"])
+    assert flow["events"][0]["action"] == "payroll.unmask"
+    assert flow["analysis"]["verdict"] == "NO_BYPASS_OBSERVED"
+
+
 def test_05_unknown_evidence_and_app_data_separation(stack):
     original = flows(stack)["flows"][0]["events"][0].copy()
     original.pop("received_at")

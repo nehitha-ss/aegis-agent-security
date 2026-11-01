@@ -206,6 +206,15 @@ ordinary customers always use corrected authorisation. Received reports contain
 only allowlisted pseudonymous identities and policy facts. Complete evidence is
 required for bypass findings; missing or inconsistent evidence is unknown.
 
+Northstar now also has a server-side **Payroll Data Vault**. Its three
+fictional payroll records are masked before browser rendering for every ordinary
+customer. A signed-in owner must re-enter the separate owner password and pass
+the same-origin CSRF check before Northstar creates a five-minute, HttpOnly
+reveal session. Each approved reveal writes a local audit entry and reports a
+pseudonymous `payroll.unmask` evidence chain to AEGIS; Northstar remains the
+source-side access enforcer, rather than relying on the browser or monitoring
+delivery to protect the data.
+
 Integration evidence and owner sessions persist in local SQLite; the original
 agent-gateway session state remains in memory. Monitoring is not enforcement.
 The new integration does not claim to provide a production identity provider,
@@ -298,7 +307,9 @@ the fictional enforcement-path result look like an authenticated Northstar event
 
 For the isolated finance integration, the next slice is owner-reviewed hosting
 on separate URLs, secret/key lifecycle controls, durable report retries and
-retention/shared-storage support. Keep unsafe demo mode disabled by default.
+retention/shared-storage support. Replace the demo owner-password recheck with
+an approved production SSO step-up policy before any non-fictional use. Keep
+unsafe demo mode disabled by default.
 Do not deploy this branch or merge it into main without explicit instruction.
 The existing agent-security roadmap below remains applicable to the original gateway.
 

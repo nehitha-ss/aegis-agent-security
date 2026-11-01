@@ -29,7 +29,12 @@ CUSTOMER_PASSWORD = os.environ.get("NORTHSTAR_CUSTOMER_PASSWORD", "")
 RUN_KEY = os.environ.get("NORTHSTAR_DEMO_RUN_KEY", "")
 if min(map(len, [OWNER_PASSWORD, CUSTOMER_PASSWORD, RUN_KEY])) < 24:
     raise RuntimeError("Set separate NORTHSTAR owner, customer and demo-run secrets (at least 24 characters)")
-connector = AegisConnector(os.environ.get("AEGIS_ENDPOINT", "http://127.0.0.1:8001"), os.environ.get("AEGIS_APP_ID", ""), os.environ.get("AEGIS_CONNECTION_KEY", ""), os.environ.get("AEGIS_PSEUDONYM_KEY", ""), json.loads(os.environ.get("AEGIS_ROUTE_MAPPINGS", '{"statement":"statement.read","transfer":"transfer.create"}')))
+route_mappings = {
+    "statement": "statement.read",
+    "transfer": "transfer.create",
+    "payroll": "payroll.unmask",
+} | json.loads(os.environ.get("AEGIS_ROUTE_MAPPINGS", "{}"))
+connector = AegisConnector(os.environ.get("AEGIS_ENDPOINT", "http://127.0.0.1:8001"), os.environ.get("AEGIS_APP_ID", ""), os.environ.get("AEGIS_CONNECTION_KEY", ""), os.environ.get("AEGIS_PSEUDONYM_KEY", ""), route_mappings)
 app = FastAPI(title="Northstar Finance — fictional demo", docs_url=None, redoc_url=None)
 templates = Jinja2Templates(directory=str(BASE / "templates"))
 
@@ -59,6 +64,9 @@ with database() as db:
     CREATE TABLE IF NOT EXISTS transactions(id TEXT PRIMARY KEY,account TEXT,label TEXT,amount INTEGER,created TEXT);
     CREATE TABLE IF NOT EXISTS sessions(hash TEXT PRIMARY KEY,customer TEXT,csrf TEXT,expires REAL);
     CREATE TABLE IF NOT EXISTS permits(hash TEXT PRIMARY KEY,customer TEXT,scenario TEXT,expires REAL,used INTEGER DEFAULT 0);
+    CREATE TABLE IF NOT EXISTS payroll_records(id TEXT PRIMARY KEY,employee_name TEXT,payroll_id TEXT,department TEXT,pay_period TEXT,net_pay INTEGER,bank_account TEXT);
+    CREATE TABLE IF NOT EXISTS payroll_reveals(hash TEXT PRIMARY KEY,owner TEXT NOT NULL,expires REAL NOT NULL);
+    CREATE TABLE IF NOT EXISTS payroll_audit(id TEXT PRIMARY KEY,owner TEXT NOT NULL,action TEXT NOT NULL,record_count INTEGER NOT NULL,decision TEXT NOT NULL,correlation TEXT NOT NULL,created TEXT NOT NULL);
     """)
     for identity, name, tenant, role in [("alex", "Alex Morgan", "Northstar Logistics", "customer"), ("jamie", "Jamie Chen", "Northstar Logistics", "customer"), ("riley", "Riley Brooks", "Aurora Studio", "customer"), ("owner", "Demo operator", "Northstar Logistics", "owner")]:
         if not db.execute("SELECT id FROM customers WHERE id=?", (identity,)).fetchone():
@@ -78,6 +86,13 @@ with database() as db:
         if not db.execute("SELECT id FROM accounts WHERE id='acct-visitor'").fetchone():
             db.execute("INSERT INTO accounts VALUES(?,?,?,?,?)", ("acct-visitor", "visitor", "Northstar Logistics", "Visitor demo account", 250000))
             db.execute("INSERT INTO transactions VALUES(?,?,?,?,datetime('now'))", (str(uuid.uuid4()), "acct-visitor", "Fictional demo opening balance", 250000))
+    for record in [
+        ("pay-001", "Morgan Lee", "PAY-1048", "Operations", "2026-10", 582400, "•••• 1842"),
+        ("pay-002", "Avery Shah", "PAY-1052", "Finance", "2026-10", 637100, "•••• 9017"),
+        ("pay-003", "Jordan Kim", "PAY-1059", "Engineering", "2026-10", 714600, "•••• 4460"),
+    ]:
+        if not db.execute("SELECT id FROM payroll_records WHERE id=?", (record[0],)).fetchone():
+            db.execute("INSERT INTO payroll_records VALUES(?,?,?,?,?,?,?)", record)
 
 
 def new_session(customer):
@@ -102,6 +117,23 @@ def current(request, owner=False):
 def verify_form(request, person, csrf):
     if request.headers.get("origin") != ORIGIN or not secrets.compare_digest(person["csrf"], csrf):
         raise HTTPException(403, "Invalid form origin or CSRF token")
+
+
+def mask_name(value):
+    return " ".join(part[0] + "•••" for part in value.split())
+
+
+def masked_payroll(record):
+    return {"id": record["id"], "employee_name": mask_name(record["employee_name"]), "payroll_id": "PAY-••••", "department": record["department"], "pay_period": record["pay_period"], "net_pay": "••••••", "bank_account": "••••"}
+
+
+def valid_payroll_reveal(request, person):
+    token = request.cookies.get("northstar_payroll_reveal", "")
+    if not token or person["role"] != "owner":
+        return False
+    with database() as db:
+        db.execute("DELETE FROM payroll_reveals WHERE expires<?", (time.time(),))
+        return bool(db.execute("SELECT 1 FROM payroll_reveals WHERE hash=? AND owner=? AND expires>?", (hashlib.sha256(token.encode()).hexdigest(), person["id"], time.time())).fetchone())
 
 
 @app.middleware("http")
@@ -202,6 +234,45 @@ def dashboard(request: Request):
         transactions = [dict(x) for x in db.execute("SELECT t.* FROM transactions t JOIN accounts a ON a.id=t.account WHERE a.owner=? ORDER BY t.rowid DESC LIMIT 20", (person["id"],))]
         recipients = [dict(x) for x in db.execute("SELECT id,label FROM accounts WHERE tenant=? AND owner<>?", (person["tenant"], person["id"]))]
     return templates.TemplateResponse(request=request, name="dashboard.html", context={"person": person, "accounts": accounts, "transactions": transactions, "recipients": recipients})
+
+
+@app.get("/payroll", response_class=HTMLResponse)
+def payroll_folder(request: Request):
+    person = current(request)
+    revealed = valid_payroll_reveal(request, person)
+    with database() as db:
+        rows = [dict(x) for x in db.execute("SELECT * FROM payroll_records ORDER BY id")]
+        audit = [dict(x) for x in db.execute("SELECT * FROM payroll_audit WHERE owner=? ORDER BY created DESC LIMIT 5", (person["id"],))] if person["role"] == "owner" else []
+    records = rows if revealed else [masked_payroll(row) for row in rows]
+    return templates.TemplateResponse(request=request, name="payroll.html", context={"person": person, "records": records, "revealed": revealed, "audit": audit})
+
+
+def payroll_events(request, person, outcome):
+    evidence = {"caller_authorized": True, "helper_authorized": True, "helper_uses_own_identity": False, "original_caller_checked": True, "caller_context_propagated": True, "caller_controls_resource": False, "resource_trusts_helper_only": False}
+    cid_token = correlation_id.set(request.state.correlation_id)
+    try:
+        return [connector.event(route="payroll", phase=phase, caller=person["id"], helper="payroll-access-service", resource="payroll-ledger", caller_tenant=person["tenant"], resource_tenant=person["tenant"], outcome=outcome, evidence=evidence) for phase in ("customer", "helper", "resource")]
+    finally:
+        correlation_id.reset(cid_token)
+
+
+@app.post("/owner/payroll/reveal", response_class=HTMLResponse)
+async def reveal_payroll(request: Request, password: str = Form(), csrf: str = Form()):
+    person = current(request, owner=True)
+    verify_form(request, person, csrf)
+    if not password or not secrets.compare_digest(password_hash(password, person["salt"]), person["password_hash"]):
+        with database() as db:
+            db.execute("INSERT INTO payroll_audit VALUES(?,?,?,?,?,?,datetime('now'))", (str(uuid.uuid4()), person["id"], "payroll.unmask", 0, "DENY", request.state.correlation_id))
+        return RedirectResponse("/payroll?verification=failed", status_code=303)
+    token = secrets.token_urlsafe(32)
+    with database() as db:
+        db.execute("DELETE FROM payroll_reveals WHERE owner=?", (person["id"],))
+        db.execute("INSERT INTO payroll_reveals VALUES(?,?,?)", (hashlib.sha256(token.encode()).hexdigest(), person["id"], time.time() + 300))
+        db.execute("INSERT INTO payroll_audit VALUES(?,?,?,?,?,?,datetime('now'))", (str(uuid.uuid4()), person["id"], "payroll.unmask", 3, "ALLOW", request.state.correlation_id))
+    response = RedirectResponse("/payroll", status_code=303)
+    response.set_cookie("northstar_payroll_reveal", token, httponly=True, secure=ORIGIN.startswith("https:"), samesite="strict", max_age=300)
+    response.background = BackgroundTask(connector.send, payroll_events(request, person, "allowed"))
+    return response
 
 
 def policy(person, account, action):
