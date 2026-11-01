@@ -624,4 +624,25 @@ main section[class*="1.22fr"] {
   main .aegis-stacked-stage-layout {
     grid-template-columns:minmax(0,1fr) !important;
   }
+
+  /* Confused-Deputy: place the rule list and the selected evidence side by
+     side beneath the confirmed attack path, using the full workspace width. */
+  :root[data-aegis-stage="5"] main .aegis-stacked-stage-layout > :nth-child(2) {
+    display:grid;
+    grid-template-columns:minmax(320px,1fr) minmax(0,1fr);
+    align-items:start;
+  }
+  :root[data-aegis-stage="5"] main .aegis-stacked-stage-layout > :nth-child(2) > :first-child {
+    grid-column:1 / -1;
+  }
+  :root[data-aegis-stage="5"] main .aegis-stacked-stage-layout > :nth-child(2) > :nth-child(2) {
+    grid-column:1;
+    grid-row:2;
+    border-bottom:0;
+    border-right:1px solid var(--rebuild-line);
+  }
+  :root[data-aegis-stage="5"] main .aegis-stacked-stage-layout > :nth-child(2) > :nth-child(3) {
+    grid-column:2;
+    grid-row:2;
+  }
 }
