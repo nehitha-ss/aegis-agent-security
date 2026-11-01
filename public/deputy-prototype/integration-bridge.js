@@ -182,16 +182,20 @@
   window.setTimeout(installExtensions, 750);
   const stage = new URLSearchParams(location.search).get("stage");
   if (stage && /^\d$/.test(stage) && Number(stage) < 9) {
-    const select = () =>
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => {
-          const buttons = document.querySelectorAll(
-            '[data-sidebar="menu-button"]',
-          );
-          buttons[Number(stage)]?.click();
-        }),
-      );
-    if (document.readyState === "complete") select();
-    else window.addEventListener("load", select, { once: true });
+    const requestedStage = Number(stage);
+    // The recovered client replaces its sidebar while hydrating. Re-apply the
+    // requested stage after hydration so workflow links never fall back to
+    // Microservices on a slower public load.
+    const select = () => {
+      const buttons = document.querySelectorAll('[data-sidebar="menu-button"]');
+      const target = buttons[requestedStage];
+      if (target && target.getAttribute("data-active") !== "true") target.click();
+    };
+    const selectAfterHydration = () => {
+      requestAnimationFrame(() => requestAnimationFrame(select));
+      [250, 800, 1600].forEach((delay) => window.setTimeout(select, delay));
+    };
+    if (document.readyState === "complete") selectAfterHydration();
+    else window.addEventListener("load", selectAfterHydration, { once: true });
   }
 })();
