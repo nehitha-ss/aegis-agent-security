@@ -1,6 +1,11 @@
-import { redirect } from "next/navigation";
-
-// Keep historic demo links working after the prototype moved to its public path.
 export default function DemoOpenPage() {
-  redirect("/deputy-prototype/index.html");
+  return (
+    <main style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
+      <iframe
+        title="AEGIS prototype"
+        src="/deputy-prototype/index.html"
+        style={{ border: 0, height: "100%", width: "100%" }}
+      />
+    </main>
+  );
 }
