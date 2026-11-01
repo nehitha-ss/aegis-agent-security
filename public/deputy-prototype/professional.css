@@ -434,10 +434,11 @@ main button[class*="rounded"], main [role="button"] { letter-spacing:.005em; }
 /* The recovered Microservices graph shell is empty in the public layout but
    still reserves a large fixed height. Remove that dead surface so the route
    details sit directly beneath the section header. */
-main .h-\[290px\] { display:none !important; }
-/* Do not stretch the left-hand analysis card to the height of the detailed
-   record beside it. This prevents blank columns after the recovered visual
-   shells are removed. */
+/* The recovered visual-map cards reserve a large area but have no readable
+   content in the public theme. Remove the whole empty card and let the useful
+   record panel take the available width on every detector stage. */
+main [class*="grid-cols"]:has(.h-\[290px\]) > :has(.h-\[290px\]) { display:none !important; }
+main [class*="grid-cols"]:has(.h-\[290px\]) > :not(:has(.h-\[290px\])) { grid-column:1 / -1; }
 main section[class*="grid-cols"], main div[class*="grid-cols"] { align-items:start; }
 :root:not([data-theme="dark"]) main .font-mono { color:#17613b !important; font-weight:650; }
 :root[data-theme="dark"] main .font-mono { color:#a5e7ff !important; font-weight:650; }
