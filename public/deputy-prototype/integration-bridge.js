@@ -52,6 +52,15 @@
         <article class="is-pending"><span>APPROVAL QUEUE</span><strong>01</strong><small>Recovery-vault request pending</small></article>
         <article class="is-evidence"><span>EVIDENCE</span><strong>ACTIVE</strong><small>Decision receipts enabled</small></article>
       </section>
+      <nav class="aegis-workflow-links" aria-label="Verification workflow navigation">
+        <p><span>WORKFLOW</span> Continue the evidence review in the detector</p>
+        <div>
+          <a href="?stage=1#aegis-enforcement-path"><b>01</b> Identity Discovery</a>
+          <a href="?stage=4#aegis-enforcement-path"><b>02</b> Permission Analysis</a>
+          <a href="?stage=8#aegis-enforcement-path"><b>03</b> Evidence Ledger</a>
+          <a class="is-integration" href="/integrations"><b>↗</b> Authenticated events</a>
+        </div>
+      </nav>
       <ol class="aegis-flow-steps" aria-label="Request processing steps">
         <li class="is-current"><span>01 · REQUEST</span><strong>Capture caller intent</strong><small>Expense Intake → Finance</small></li>
         <li><span>02 · VERIFY</span><strong>Check identity and scope</strong><small>Caller context · trust · authority</small></li>
@@ -106,7 +115,9 @@
         const explanation = document.createElement("p"); explanation.textContent = data.explanation;
         const detail = document.createElement("small"); detail.textContent = `${data.matchedConditions}/5 signals · ${data.runId}`;
         const event = document.createElement("div"); event.className = "aegis-live-event"; event.innerHTML = "<i></i> Decision receipt recorded";
-        result.append(label, headline, explanation, detail, event);
+        const next = document.createElement("div"); next.className = "aegis-result-links";
+        next.innerHTML = '<a href="?stage=4#aegis-enforcement-path">Review permissions →</a><a href="?stage=8#aegis-enforcement-path">Open evidence ledger →</a>';
+        result.append(label, headline, explanation, detail, event, next);
       } catch (error) {
         result.className = "aegis-flow-result is-error";
         result.innerHTML = '<p class="aegis-flow-label">POLICY OUTCOME</p><strong>Check unavailable</strong><p></p>';
@@ -136,7 +147,11 @@
         const explanation = document.createElement("p"); explanation.textContent = data.summary;
         const detail = document.createElement("small"); detail.textContent = `${data.policy || "recovery-vault-gate"} · ${data.requestId || data.approvalId}`;
         const event = document.createElement("div"); event.className = "aegis-live-event"; event.innerHTML = "<i></i> Decision receipt recorded";
-        result.append(label, headline, explanation, detail, event);
+        const next = document.createElement("div"); next.className = "aegis-result-links";
+        next.innerHTML = approval
+          ? '<a href="?stage=4#aegis-enforcement-path">Review permission scope →</a><a href="/integrations">View authenticated events →</a>'
+          : '<a href="?stage=8#aegis-enforcement-path">Open evidence ledger →</a><a href="/integrations">View authenticated events →</a>';
+        result.append(label, headline, explanation, detail, event, next);
       } catch (error) {
         result.className = "aegis-flow-result is-error";
         result.innerHTML = '<p class="aegis-flow-label">POLICY OUTCOME</p><strong>Check unavailable</strong><p></p>';
