@@ -71,6 +71,19 @@
         <div class="aegis-flow-result" aria-live="polite"><p class="aegis-flow-label">POLICY OUTCOME</p><strong>Ready for evaluation</strong><p>Choose a test to calculate the policy decision.</p><div class="aegis-live-event"><i></i> Live policy event stream</div></div>
       </div>`;
     workspace.prepend(panel);
+    // The host prototype uses one shared workspace for its nine views. Keep
+    // this gateway in the Microservices view only, rather than duplicating it
+    // above every analysis stage.
+    const stageButtons = [...document.querySelectorAll('[data-sidebar="menu-button"]')];
+    const syncGatewayVisibility = () => {
+      const active = document.querySelector('[data-sidebar="menu-button"][data-active="true"]');
+      panel.hidden = active ? active !== stageButtons[0] : false;
+    };
+    syncGatewayVisibility();
+    stageButtons.forEach((stageButton) => stageButton.addEventListener("click", () => {
+      window.setTimeout(syncGatewayVisibility, 0);
+      window.setTimeout(syncGatewayVisibility, 80);
+    }));
     fetch("/api/auth/session", { credentials: "same-origin" }).then((response) => response.ok ? response.json() : null).then((data) => {
       const operator = panel.querySelector(".aegis-operator-identity");
       const authAction = panel.querySelector(".aegis-auth-action");
