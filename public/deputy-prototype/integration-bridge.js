@@ -44,7 +44,6 @@
       <div class="aegis-operator-strip" aria-label="Operator authentication and connected systems">
         <div class="aegis-operator-identity"><span class="aegis-operator-avatar" aria-hidden="true">↗</span><strong>Operator authentication</strong><small>Sign in to unlock protected AEGIS actions</small></div>
         <div class="aegis-auth-action"><span>OPERATOR AUTHENTICATION</span><a class="aegis-auth-button" href="/api/auth/google">Continue with Google <b aria-hidden="true">→</b></a></div>
-        <ul aria-label="Simulated connected systems"><li>Google Workspace</li><li>Slack</li><li>Finance</li><li>Payroll</li></ul>
       </div>
       <section class="aegis-command-grid" aria-label="AEGIS control room status">
         <article><span>LIVE REQUESTS</span><strong>03</strong><small>1 is waiting at policy review</small></article>
