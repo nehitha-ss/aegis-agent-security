@@ -438,7 +438,7 @@ main .h-\[290px\] { display:none !important; }
 /* Do not stretch the left-hand analysis card to the height of the detailed
    record beside it. This prevents blank columns after the recovered visual
    shells are removed. */
-main section[class*="xl:grid-cols"] { align-items:start; }
+main section[class*="grid-cols"], main div[class*="grid-cols"] { align-items:start; }
 :root:not([data-theme="dark"]) main .font-mono { color:#17613b !important; font-weight:650; }
 :root[data-theme="dark"] main .font-mono { color:#a5e7ff !important; font-weight:650; }
 @media (max-width:760px) {
