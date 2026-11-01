@@ -613,4 +613,11 @@ main section[class*="1.22fr"] {
     grid-column:2;
     grid-row:2;
   }
+
+  /* The detection and remediation views keep their evidence below the main
+     path/plan, eliminating the unused column below a shorter first card. */
+  :root[data-aegis-stage="5"] main section[class*="xl:grid-cols"],
+  :root[data-aegis-stage="7"] main section[class*="xl:grid-cols"] {
+    grid-template-columns:minmax(0,1fr) !important;
+  }
 }

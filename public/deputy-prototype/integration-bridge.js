@@ -76,6 +76,8 @@
     const stageButtons = [...document.querySelectorAll('[data-sidebar="menu-button"]')];
     const syncGatewayVisibility = () => {
       const active = document.querySelector('[data-sidebar="menu-button"][data-active="true"]');
+      const activeIndex = stageButtons.indexOf(active);
+      if (activeIndex >= 0) document.documentElement.dataset.aegisStage = String(activeIndex);
       panel.hidden = active ? active !== stageButtons[0] : false;
     };
     syncGatewayVisibility();
