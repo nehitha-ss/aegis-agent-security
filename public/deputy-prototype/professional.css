@@ -584,3 +584,9 @@ main section[class*="grid-cols"] > .overflow-hidden {
   align-self:start !important;
   height:max-content !important;
 }
+
+/* Identity Discovery has a short handoff map and a taller identity record.
+   Present them in sequence instead of leaving an unused column beneath the map. */
+main section[class*="1.22fr"] {
+  grid-template-columns:minmax(0,1fr) !important;
+}
