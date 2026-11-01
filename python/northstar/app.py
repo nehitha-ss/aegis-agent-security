@@ -159,7 +159,8 @@ def health():
 
 @app.get("/login", response_class=HTMLResponse)
 def login_page(request: Request):
-    return templates.TemplateResponse(request=request, name="login.html", context={"direct_demo": DIRECT_CUSTOMER_DEMO})
+    return_to = "payroll" if request.query_params.get("return_to") == "payroll" else ""
+    return templates.TemplateResponse(request=request, name="login.html", context={"direct_demo": DIRECT_CUSTOMER_DEMO, "return_to": return_to})
 
 
 public_demo_attempts = {}
@@ -193,7 +194,7 @@ login_attempts = {}
 
 
 @app.post("/login")
-def login(request: Request, username: str = Form(), password: str = Form()):
+def login(request: Request, username: str = Form(), password: str = Form(), return_to: str = Form("")):
     if request.headers.get("origin") != ORIGIN:
         raise HTTPException(403, "Invalid origin")
     ip = request.client.host
@@ -205,7 +206,8 @@ def login(request: Request, username: str = Form(), password: str = Form()):
         person = db.execute("SELECT * FROM customers WHERE id=?", (username,)).fetchone()
     if not person or not secrets.compare_digest(password_hash(password, person["salt"]), person["password_hash"]):
         raise HTTPException(401, "Invalid demo credentials")
-    response = RedirectResponse("/owner" if person["role"] == "owner" else "/", status_code=303)
+    destination = "/payroll" if person["role"] == "owner" and return_to == "payroll" else ("/owner" if person["role"] == "owner" else "/")
+    response = RedirectResponse(destination, status_code=303)
     response.set_cookie("northstar_session", new_session(person["id"]), httponly=True, secure=ORIGIN.startswith("https:"), samesite="strict", max_age=28800)
     return response
 
