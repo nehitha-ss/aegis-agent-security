@@ -41,8 +41,9 @@
         <div><p class="aegis-flow-kicker">VERIFICATION GATEWAY</p><h2>AEGIS verifies delegated access before payroll</h2><p>One policy checkpoint before a protected Payroll Ledger boundary.</p></div>
         <span class="aegis-flow-badge">SECURE SANDBOX</span>
       </div>
-      <div class="aegis-operator-strip" aria-label="Demo operator and connected systems">
-        <div><span class="aegis-operator-avatar" aria-hidden="true">NA</span><strong>Northstar demo workspace</strong><small>Signed in as Analyst · role-scoped access</small></div>
+      <div class="aegis-operator-strip" aria-label="Operator authentication and connected systems">
+        <div class="aegis-operator-identity"><span class="aegis-operator-avatar" aria-hidden="true">↗</span><strong>Operator authentication</strong><small>Sign in to unlock protected AEGIS actions</small></div>
+        <div class="aegis-auth-action"><span>OPERATOR AUTHENTICATION</span><a class="aegis-auth-button" href="/api/auth/google">Continue with Google <b aria-hidden="true">→</b></a></div>
         <ul aria-label="Simulated connected systems"><li>Google Workspace</li><li>Slack</li><li>Finance</li><li>Payroll</li></ul>
       </div>
       <section class="aegis-command-grid" aria-label="AEGIS control room status">
@@ -62,13 +63,21 @@
       </div>`;
     workspace.prepend(panel);
     fetch("/api/auth/session", { credentials: "same-origin" }).then((response) => response.ok ? response.json() : null).then((data) => {
-      const operator = panel.querySelector(".aegis-operator-strip > div");
-      if (!operator) return;
+      const operator = panel.querySelector(".aegis-operator-identity");
+      const authAction = panel.querySelector(".aegis-auth-action");
+      if (!operator || !authAction) return;
       if (!data?.user) {
-        operator.innerHTML = '<span class="aegis-operator-avatar" aria-hidden="true">↗</span><strong>Secure workspace</strong><small><a href="/api/auth/google">Sign in with Google to verify your operator identity</a></small>';
+        operator.innerHTML = '<span class="aegis-operator-avatar" aria-hidden="true">↗</span><strong>Secure workspace</strong><small>Sign in to unlock protected AEGIS actions</small>';
         return;
       }
-      operator.innerHTML = `<span class="aegis-operator-avatar" aria-hidden="true">${data.user.name.slice(0, 2).toUpperCase()}</span><strong>${data.user.name}</strong><small>${data.user.email} · verified Google identity</small>`;
+      operator.innerHTML = `<span class="aegis-operator-avatar" aria-hidden="true">${data.user.name.slice(0, 2).toUpperCase()}</span><strong>${data.user.name}</strong><small>Verified Google identity · protected actions unlocked</small>`;
+      authAction.innerHTML = '<span>AUTHENTICATED OPERATOR</span><button type="button" class="aegis-auth-button is-authenticated" data-aegis-signout>Sign out <b aria-hidden="true">→</b></button>';
+      authAction.querySelector("[data-aegis-signout]")?.addEventListener("click", async () => {
+        const button = authAction.querySelector("button");
+        if (button) { button.disabled = true; button.textContent = "Signing out…"; }
+        await fetch("/api/auth/signout", { method: "POST", credentials: "same-origin" });
+        window.location.reload();
+      });
     }).catch(() => {});
 
     const presets = {

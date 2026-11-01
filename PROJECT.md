@@ -128,6 +128,10 @@ uses professional secure-sandbox language. Google sign-in is live; the policy
 data remains intentionally synthetic until a company-approved data integration
 exists.
 
+The gateway now places a prominent "Continue with Google" operator-authentication
+control beside the workspace identity. A verified operator sees an explicit
+authenticated state and can sign out; protected AEGIS actions remain server-side.
+
 ### Deputy-prototype visual system (2026-10-31)
 
 The public nine-stage confused-deputy prototype now uses a dedicated
