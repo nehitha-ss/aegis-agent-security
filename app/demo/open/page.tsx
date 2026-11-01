@@ -1,11 +1,7 @@
+import { redirect } from "next/navigation";
+
 export default function DemoOpenPage() {
-  return (
-    <main style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
-      <iframe
-        title="AEGIS prototype"
-        src="/deputy-prototype/index.html"
-        style={{ border: 0, height: "100%", width: "100%" }}
-      />
-    </main>
-  );
+  // Northstar Finance is a separate fictional finance application. Preserve
+  // old AEGIS links by sending them to its public customer-demo entry point.
+  redirect("https://northstar-finance-demo.onrender.com/demo/open");
 }
